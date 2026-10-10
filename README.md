@@ -4,6 +4,8 @@
 
 基于麦当劳中国官方 MCP 开发 · 使用腾讯 WorkBuddy 完成 · 仅读取账户数据，花钱动作一律需你确认
 
+仓库地址：<https://github.com/waterooox/mcd-annual-report>
+
 ---
 
 ## 这是什么
@@ -107,6 +109,15 @@ Python 代码绘制成 SVG，**不包含任何官方图片文件**，从根上�
 > 若后续接入稳定的图片源，渲染器已预留 `onerror` 降级位，可平滑切换。
 
 ## 快速开始
+
+### 0. 获取代码
+
+```bash
+git clone https://github.com/waterooox/mcd-annual-report.git
+cd mcd-annual-report
+```
+
+**零第三方依赖**，只要有 Python 3.10+ 即可，无需 `pip install`。
 
 ### 1. 只想看看效果（零配置，30 秒）
 
