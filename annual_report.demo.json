@@ -1,0 +1,919 @@
+{
+  "meta": {
+    "title": "2026 麦麦年度报告",
+    "owner": "演示用户",
+    "year": 2026,
+    "generated_at": "2026-10-10T08:29:36",
+    "data_scope": "仅统计本账户在麦当劳的真实消费记录"
+  },
+  "summary": {
+    "empty": false,
+    "order_count": 24,
+    "gross": 1432.0,
+    "paid": 1202.0,
+    "saved": 230.0,
+    "delivery_fee": 36.0,
+    "aov": 50.08,
+    "total_discount": 230.0,
+    "discount_rate": 0.1606,
+    "coupon_order_count": 19,
+    "category_amount": {
+      "主食": 640.0,
+      "小食": 136.0,
+      "饮品": 402.0,
+      "甜点": 205.0
+    },
+    "category_count": {
+      "主食": 28,
+      "小食": 10,
+      "饮品": 24,
+      "甜点": 15
+    },
+    "top_items": [
+      {
+        "name": "麦咖啡拿铁",
+        "qty": 18,
+        "spend": 342.0
+      },
+      {
+        "name": "麦辣鸡腿堡",
+        "qty": 16,
+        "spend": 352.0
+      },
+      {
+        "name": "麦旋风",
+        "qty": 14,
+        "spend": 196.0
+      },
+      {
+        "name": "巨无霸",
+        "qty": 12,
+        "spend": 288.0
+      },
+      {
+        "name": "中薯条",
+        "qty": 7,
+        "spend": 91.0
+      }
+    ],
+    "hour_distribution": {
+      "午餐(10-14)": 13,
+      "晚餐(17-21)": 5,
+      "夜宵(21-05)": 5,
+      "下午茶(14-17)": 1
+    },
+    "channel_distribution": {
+      "到店取餐": 18,
+      "外送": 6
+    },
+    "store_distribution": {
+      "麦当劳(中关村店)": 11,
+      "麦当劳(国贸店)": 4,
+      "麦当劳(五道口店)": 6,
+      "麦当劳(望京店)": 3
+    },
+    "trace": {
+      "order_count": {
+        "formula": "count(orders)",
+        "sources": [
+          "MCD20260112001",
+          "MCD20260120002",
+          "MCD20260208003",
+          "MCD20260226004",
+          "MCD20260315005",
+          "MCD20260328006",
+          "MCD20260410007",
+          "MCD20260425008",
+          "MCD20260512009",
+          "MCD20260530010",
+          "MCD20260618011",
+          "MCD20260628012",
+          "MCD20260715013",
+          "MCD20260729014",
+          "MCD20260812015",
+          "MCD20260826016",
+          "MCD20260909017",
+          "MCD20260925018",
+          "MCD20261014019",
+          "MCD20261030020",
+          "MCD20261111021",
+          "MCD20261127022",
+          "MCD20261215023",
+          "MCD20261224024"
+        ]
+      },
+      "gross": {
+        "formula": "原价合计 = 各单（商品原价 + 配送费）逐单相加",
+        "sources": [
+          "MCD20260112001",
+          "MCD20260120002",
+          "MCD20260208003",
+          "MCD20260226004",
+          "MCD20260315005",
+          "MCD20260328006",
+          "MCD20260410007",
+          "MCD20260425008",
+          "MCD20260512009",
+          "MCD20260530010",
+          "MCD20260618011",
+          "MCD20260628012",
+          "MCD20260715013",
+          "MCD20260729014",
+          "MCD20260812015",
+          "MCD20260826016",
+          "MCD20260909017",
+          "MCD20260925018",
+          "MCD20261014019",
+          "MCD20261030020",
+          "MCD20261111021",
+          "MCD20261127022",
+          "MCD20261215023",
+          "MCD20261224024"
+        ]
+      },
+      "paid": {
+        "formula": "实付合计 = 各单实付金额逐单相加",
+        "sources": [
+          "MCD20260112001",
+          "MCD20260120002",
+          "MCD20260208003",
+          "MCD20260226004",
+          "MCD20260315005",
+          "MCD20260328006",
+          "MCD20260410007",
+          "MCD20260425008",
+          "MCD20260512009",
+          "MCD20260530010",
+          "MCD20260618011",
+          "MCD20260628012",
+          "MCD20260715013",
+          "MCD20260729014",
+          "MCD20260812015",
+          "MCD20260826016",
+          "MCD20260909017",
+          "MCD20260925018",
+          "MCD20261014019",
+          "MCD20261030020",
+          "MCD20261111021",
+          "MCD20261127022",
+          "MCD20261215023",
+          "MCD20261224024"
+        ]
+      },
+      "saved": {
+        "formula": "省下金额 = 各单（商品原价 + 配送费 − 实付）逐单相加",
+        "sources": [
+          "MCD20260112001",
+          "MCD20260120002",
+          "MCD20260208003",
+          "MCD20260226004",
+          "MCD20260315005",
+          "MCD20260328006",
+          "MCD20260410007",
+          "MCD20260425008",
+          "MCD20260512009",
+          "MCD20260530010",
+          "MCD20260618011",
+          "MCD20260628012",
+          "MCD20260715013",
+          "MCD20260729014",
+          "MCD20260812015",
+          "MCD20260826016",
+          "MCD20260909017",
+          "MCD20260925018",
+          "MCD20261014019",
+          "MCD20261030020",
+          "MCD20261111021",
+          "MCD20261127022",
+          "MCD20261215023",
+          "MCD20261224024"
+        ]
+      },
+      "aov": {
+        "formula": "客单价 = 实付合计 ÷ 订单数",
+        "sources": [
+          "全部订单"
+        ]
+      },
+      "discount_rate": {
+        "formula": "折扣率 = 优惠合计 ÷ 原价合计",
+        "sources": [
+          "MCD20260112001",
+          "MCD20260120002",
+          "MCD20260208003",
+          "MCD20260226004",
+          "MCD20260315005",
+          "MCD20260328006",
+          "MCD20260410007",
+          "MCD20260425008",
+          "MCD20260512009",
+          "MCD20260530010",
+          "MCD20260618011",
+          "MCD20260628012",
+          "MCD20260715013",
+          "MCD20260729014",
+          "MCD20260812015",
+          "MCD20260826016",
+          "MCD20260909017",
+          "MCD20260925018",
+          "MCD20261014019",
+          "MCD20261030020",
+          "MCD20261111021",
+          "MCD20261127022",
+          "MCD20261215023",
+          "MCD20261224024"
+        ]
+      },
+      "top_items": {
+        "formula": "按 Σ(qty) 降序，同数量按 Σ(subtotal) 降序",
+        "sources": [
+          "MCD20260112001",
+          "MCD20260120002",
+          "MCD20260208003",
+          "MCD20260226004",
+          "MCD20260315005",
+          "MCD20260328006",
+          "MCD20260410007",
+          "MCD20260425008",
+          "MCD20260512009",
+          "MCD20260530010",
+          "MCD20260618011",
+          "MCD20260628012",
+          "MCD20260715013",
+          "MCD20260729014",
+          "MCD20260812015",
+          "MCD20260826016",
+          "MCD20260909017",
+          "MCD20260925018",
+          "MCD20261014019",
+          "MCD20261030020",
+          "MCD20261111021",
+          "MCD20261127022",
+          "MCD20261215023",
+          "MCD20261224024"
+        ]
+      },
+      "coupon_order_count": {
+        "formula": "count(orders where coupon_used is not null)",
+        "sources": [
+          "MCD20260112001",
+          "MCD20260120002",
+          "MCD20260315005",
+          "MCD20260328006",
+          "MCD20260410007",
+          "MCD20260512009",
+          "MCD20260530010",
+          "MCD20260618011",
+          "MCD20260715013",
+          "MCD20260729014",
+          "MCD20260812015",
+          "MCD20260909017",
+          "MCD20260925018",
+          "MCD20261014019",
+          "MCD20261030020",
+          "MCD20261111021",
+          "MCD20261127022",
+          "MCD20261215023",
+          "MCD20261224024"
+        ]
+      }
+    }
+  },
+  "behavior": {
+    "empty": false,
+    "traits": [
+      {
+        "key": "combo_dependence",
+        "label": "套餐依赖型",
+        "value": 1.0,
+        "threshold": 0.7,
+        "comparator": ">=",
+        "unit": "%",
+        "rule": "套餐依赖型：多子项订单占比 ≥ 70%；否则为自由组合型",
+        "evidence": [
+          "MCD20260112001",
+          "MCD20260120002",
+          "MCD20260208003",
+          "MCD20260226004",
+          "MCD20260315005",
+          "MCD20260328006",
+          "MCD20260410007",
+          "MCD20260425008",
+          "MCD20260512009",
+          "MCD20260530010",
+          "MCD20260618011",
+          "MCD20260628012",
+          "MCD20260715013",
+          "MCD20260729014",
+          "MCD20260812015",
+          "MCD20260826016",
+          "MCD20260909017",
+          "MCD20260925018",
+          "MCD20261014019",
+          "MCD20261030020",
+          "MCD20261111021",
+          "MCD20261127022",
+          "MCD20261215023",
+          "MCD20261224024"
+        ]
+      },
+      {
+        "key": "time_concentration",
+        "label": "午餐(10-14)集中型",
+        "value": 0.5417,
+        "threshold": 0.5,
+        "comparator": ">=",
+        "unit": "%",
+        "rule": "时段集中型：最高频时段的订单占比 ≥ 50%；否则为全时段分散型",
+        "evidence": [
+          "MCD20260112001",
+          "MCD20260208003",
+          "MCD20260315005",
+          "MCD20260410007",
+          "MCD20260425008",
+          "MCD20260512009",
+          "MCD20260618011",
+          "MCD20260715013",
+          "MCD20260812015",
+          "MCD20260909017",
+          "MCD20261014019",
+          "MCD20261111021",
+          "MCD20261215023"
+        ]
+      },
+      {
+        "key": "variety",
+        "label": "口味稳定型",
+        "value": 0.3333,
+        "threshold": 1.5,
+        "comparator": ">=",
+        "unit": "种/单",
+        "rule": "探索尝新型：不同商品种类数 ÷ 订单数 ≥ 1.5；否则为口味稳定型",
+        "evidence": [
+          "中可口可乐",
+          "中薯条",
+          "大薯条",
+          "巨无霸",
+          "苹果派",
+          "麦咖啡拿铁",
+          "麦旋风",
+          "麦辣鸡腿堡"
+        ]
+      },
+      {
+        "key": "price_level",
+        "label": "偏高客单型",
+        "value": 50.08,
+        "threshold": 30.0,
+        "comparator": ">=",
+        "unit": "元",
+        "rule": "偏高客单型：客单价 ≥ ¥30；否则为经济实付型",
+        "evidence": [
+          "MCD20260120002",
+          "MCD20260328006",
+          "MCD20260530010",
+          "MCD20260826016",
+          "MCD20260925018",
+          "MCD20261014019",
+          "MCD20261030020",
+          "MCD20261111021",
+          "MCD20261127022",
+          "MCD20261215023",
+          "MCD20261224024"
+        ]
+      }
+    ],
+    "summary": "你的行为特征：套餐依赖型 × 午餐(10-14)集中型 × 口味稳定型 × 偏高客单型。",
+    "basis": {
+      "order_count": 24,
+      "median_payable": 47.0,
+      "aov": 50.08
+    },
+    "disclaimer": "本画像只描述可观测的点餐行为，不构成对个人性格、健康或消费能力的评价。每个特征均由公开的判定规则与明确阈值得出，你可对照自己的订单核验或反驳。",
+    "note": "与同类「人格测试」的差别：不做黑箱打分，只做可复现的规则判定。"
+  },
+  "persona": {
+    "empty": false,
+    "main": {
+      "key": "cameroon",
+      "name": "咖麦隆",
+      "kind": "单品型",
+      "display_kind": "单品型",
+      "hidden": false,
+      "unit": "杯",
+      "cover": "linear-gradient(135deg,#6D4C41,#3E2723)",
+      "count": 18,
+      "lines": [
+        "你本年度一共喝了 18 杯麦咖啡系列。",
+        "别人在点餐，你在选豆；别人在续杯，你在续命。",
+        "杯杯不落，场场首发 —— 咖麦隆，咖啡界的全能前锋。"
+      ],
+      "trigger": "商品名包含：麦咖啡 / 拿铁 / 美式 / 卡布 / 摩卡 / 咖啡"
+    },
+    "subs": [
+      {
+        "key": "burger_guardian",
+        "name": "堡你周全",
+        "unit": "个",
+        "count": 28,
+        "trigger": "商品名包含：汉堡 / 巨无霸 / 吉士 / 芝士 / 麦辣鸡腿堡 / 麦辣鸡排堡 / 辣腿堡 / 辣堡 / 麦辣双层 / 双牛 / 双层牛 / 板烧 / 鸡腿堡 / 麦香 / 培根 / 牛堡",
+        "display_kind": "组合型",
+        "cover": "linear-gradient(135deg,#EF6C00,#B71C1C)",
+        "hidden": false,
+        "lines": [
+          "你本年度一共吃了 28 个汉堡 —— 从经典牛肉到香辣鸡腿，一个都没落下。",
+          "有面包、有肉、有酱，才叫一顿饭 —— 别的都是配菜。",
+          "堡你周全，你一个人把整张菜单吃成了一条线。"
+        ]
+      },
+      {
+        "key": "spicy_warrior",
+        "name": "麦辣战神",
+        "unit": "个",
+        "count": 16,
+        "trigger": "商品名包含：麦辣鸡腿堡 / 麦辣鸡排堡 / 辣腿堡 / 辣堡 / 麦辣双层",
+        "display_kind": "单品型",
+        "cover": "linear-gradient(135deg,#DA291C,#8E0F06)",
+        "hidden": false,
+        "lines": [
+          "你本年度一共吃了 16 个麦辣系列汉堡。",
+          "别人的微辣是微辣，你的微辣是「再来一个」。"
+        ]
+      }
+    ],
+    "candidates": [
+      {
+        "name": "咖麦隆",
+        "key": "cameroon",
+        "count": 18,
+        "unit": "杯",
+        "trigger": "商品名包含：麦咖啡 / 拿铁 / 美式 / 卡布 / 摩卡 / 咖啡",
+        "sub_only": false
+      },
+      {
+        "name": "麦辣战神",
+        "key": "spicy_warrior",
+        "count": 16,
+        "unit": "个",
+        "trigger": "商品名包含：麦辣鸡腿堡 / 麦辣鸡排堡 / 辣腿堡 / 辣堡 / 麦辣双层",
+        "sub_only": false
+      },
+      {
+        "name": "旋麦",
+        "key": "mcflurry_whirl",
+        "count": 14,
+        "unit": "份",
+        "trigger": "商品名包含：麦旋风 / 旋风",
+        "sub_only": false
+      },
+      {
+        "name": "巨无霸原教旨",
+        "key": "big_mac_loyalist",
+        "count": 12,
+        "unit": "个",
+        "trigger": "商品名包含：巨无霸",
+        "sub_only": false
+      },
+      {
+        "name": "薯条钢琴家",
+        "key": "fries_pianist",
+        "count": 10,
+        "unit": "盒",
+        "trigger": "商品名包含：薯条",
+        "sub_only": false
+      },
+      {
+        "name": "可劲儿乐呵",
+        "key": "cola_joy",
+        "count": 6,
+        "unit": "杯",
+        "trigger": "商品名包含：可乐",
+        "sub_only": false
+      },
+      {
+        "name": "国宝",
+        "key": "national_treasure",
+        "count": 5,
+        "unit": "单",
+        "trigger": "下单时段属于：夜宵(21-05)",
+        "sub_only": false
+      },
+      {
+        "name": "堡你周全",
+        "key": "burger_guardian",
+        "count": 28,
+        "unit": "个",
+        "trigger": "商品名包含：汉堡 / 巨无霸 / 吉士 / 芝士 / 麦辣鸡腿堡 / 麦辣鸡排堡 / 辣腿堡 / 辣堡 / 麦辣双层 / 双牛 / 双层牛 / 板烧 / 鸡腿堡 / 麦香 / 培根 / 牛堡",
+        "sub_only": true
+      }
+    ],
+    "default": false,
+    "hidden_unlocked": false,
+    "basis": {
+      "order_count": 24,
+      "distinct_items": 8,
+      "items": {
+        "麦咖啡拿铁": 18,
+        "麦辣鸡腿堡": 16,
+        "麦旋风": 14,
+        "巨无霸": 12,
+        "中薯条": 7,
+        "中可口可乐": 6,
+        "大薯条": 3,
+        "苹果派": 1
+      }
+    },
+    "summary": "你的麦麦人格是「咖麦隆」。",
+    "disclaimer": "「麦麦人格」由你本年度实际点过的商品与下单时段推出，触发条件逐条公开。文案里的每个数字都能在下方明细中查到来源，你可以核验，也可以反驳。它只描述点餐行为，不构成对性格、健康或消费能力的评价。"
+  },
+  "quarterly": [
+    {
+      "quarter": "Q1",
+      "order_count": 6,
+      "paid": 270.0,
+      "aov": 45.0,
+      "discount_rate": 0.1667,
+      "trace": {
+        "sources": [
+          "MCD20260112001",
+          "MCD20260120002",
+          "MCD20260208003",
+          "MCD20260226004",
+          "MCD20260315005",
+          "MCD20260328006"
+        ]
+      }
+    },
+    {
+      "quarter": "Q2",
+      "order_count": 6,
+      "paid": 248.0,
+      "aov": 41.33,
+      "discount_rate": 0.1143,
+      "trace": {
+        "sources": [
+          "MCD20260410007",
+          "MCD20260425008",
+          "MCD20260512009",
+          "MCD20260530010",
+          "MCD20260618011",
+          "MCD20260628012"
+        ]
+      }
+    },
+    {
+      "quarter": "Q3",
+      "order_count": 6,
+      "paid": 287.0,
+      "aov": 47.83,
+      "discount_rate": 0.1509,
+      "trace": {
+        "sources": [
+          "MCD20260715013",
+          "MCD20260729014",
+          "MCD20260812015",
+          "MCD20260826016",
+          "MCD20260909017",
+          "MCD20260925018"
+        ]
+      }
+    },
+    {
+      "quarter": "Q4",
+      "order_count": 6,
+      "paid": 397.0,
+      "aov": 66.17,
+      "discount_rate": 0.1898,
+      "trace": {
+        "sources": [
+          "MCD20261014019",
+          "MCD20261030020",
+          "MCD20261111021",
+          "MCD20261127022",
+          "MCD20261215023",
+          "MCD20261224024"
+        ]
+      }
+    }
+  ],
+  "monthly": [
+    {
+      "month": 1,
+      "order_count": 2,
+      "paid": 91.0,
+      "sources": [
+        "MCD20260112001",
+        "MCD20260120002"
+      ]
+    },
+    {
+      "month": 2,
+      "order_count": 2,
+      "paid": 68.0,
+      "sources": [
+        "MCD20260208003",
+        "MCD20260226004"
+      ]
+    },
+    {
+      "month": 3,
+      "order_count": 2,
+      "paid": 111.0,
+      "sources": [
+        "MCD20260315005",
+        "MCD20260328006"
+      ]
+    },
+    {
+      "month": 4,
+      "order_count": 2,
+      "paid": 74.0,
+      "sources": [
+        "MCD20260410007",
+        "MCD20260425008"
+      ]
+    },
+    {
+      "month": 5,
+      "order_count": 2,
+      "paid": 102.0,
+      "sources": [
+        "MCD20260512009",
+        "MCD20260530010"
+      ]
+    },
+    {
+      "month": 6,
+      "order_count": 2,
+      "paid": 72.0,
+      "sources": [
+        "MCD20260618011",
+        "MCD20260628012"
+      ]
+    },
+    {
+      "month": 7,
+      "order_count": 2,
+      "paid": 91.0,
+      "sources": [
+        "MCD20260715013",
+        "MCD20260729014"
+      ]
+    },
+    {
+      "month": 8,
+      "order_count": 2,
+      "paid": 102.0,
+      "sources": [
+        "MCD20260812015",
+        "MCD20260826016"
+      ]
+    },
+    {
+      "month": 9,
+      "order_count": 2,
+      "paid": 94.0,
+      "sources": [
+        "MCD20260909017",
+        "MCD20260925018"
+      ]
+    },
+    {
+      "month": 10,
+      "order_count": 2,
+      "paid": 139.0,
+      "sources": [
+        "MCD20261014019",
+        "MCD20261030020"
+      ]
+    },
+    {
+      "month": 11,
+      "order_count": 2,
+      "paid": 109.0,
+      "sources": [
+        "MCD20261111021",
+        "MCD20261127022"
+      ]
+    },
+    {
+      "month": 12,
+      "order_count": 2,
+      "paid": 149.0,
+      "sources": [
+        "MCD20261215023",
+        "MCD20261224024"
+      ]
+    }
+  ],
+  "flavor_drift": {
+    "h1_order_count": 12,
+    "h2_order_count": 12,
+    "drift": [
+      {
+        "category": "主食",
+        "h1_share": 0.5969,
+        "h2_share": 0.3679,
+        "delta": -0.229
+      },
+      {
+        "category": "饮品",
+        "h1_share": 0.171,
+        "h2_share": 0.3753,
+        "delta": 0.2043
+      },
+      {
+        "category": "甜点",
+        "h1_share": 0.089,
+        "h2_share": 0.1901,
+        "delta": 0.1011
+      },
+      {
+        "category": "小食",
+        "h1_share": 0.1431,
+        "h2_share": 0.0667,
+        "delta": -0.0764
+      }
+    ],
+    "narrative": "下半年你的「主食」占比从 59.7% 降到 36.8%，这一类吃得比上半年少了。",
+    "trace": {
+      "formula": "品类占比 = 该品类金额 ÷ 全部金额，分别在上半年/下半年计算后相减",
+      "sources": {
+        "h1": [
+          "MCD20260112001",
+          "MCD20260120002",
+          "MCD20260208003",
+          "MCD20260226004",
+          "MCD20260315005",
+          "MCD20260328006",
+          "MCD20260410007",
+          "MCD20260425008",
+          "MCD20260512009",
+          "MCD20260530010",
+          "MCD20260618011",
+          "MCD20260628012"
+        ],
+        "h2": [
+          "MCD20260715013",
+          "MCD20260729014",
+          "MCD20260812015",
+          "MCD20260826016",
+          "MCD20260909017",
+          "MCD20260925018",
+          "MCD20261014019",
+          "MCD20261030020",
+          "MCD20261111021",
+          "MCD20261127022",
+          "MCD20261215023",
+          "MCD20261224024"
+        ]
+      }
+    }
+  },
+  "coupons": {
+    "total_face_value": 66.5,
+    "coupon_count": 5,
+    "expiring_within_7d": [],
+    "expired_count": 0,
+    "store_unavailable_count": 1,
+    "priority_list": [
+      {
+        "coupon_id": "C2026B02",
+        "name": "巨无霸免费兑换券",
+        "face_value": 24.0,
+        "threshold": 0.0,
+        "expire_at": "2026-10-25",
+        "days_left": 16,
+        "efficiency": 99.0,
+        "reachable_by_typical_order": true,
+        "typical_order_payable": 47.0,
+        "redeemable_in_store": true,
+        "urgency": 0.6,
+        "priority_score": 3.0,
+        "action": "常规券，按需使用"
+      },
+      {
+        "coupon_id": "C2026B01",
+        "name": "满30减8 通用券",
+        "face_value": 8.0,
+        "threshold": 30.0,
+        "expire_at": "2026-10-20",
+        "days_left": 11,
+        "efficiency": 0.2667,
+        "reachable_by_typical_order": true,
+        "typical_order_payable": 47.0,
+        "redeemable_in_store": true,
+        "urgency": 0.6,
+        "priority_score": 0.16,
+        "action": "常规券，按需使用"
+      },
+      {
+        "coupon_id": "C2026B04",
+        "name": "麦咖啡第二杯半价券",
+        "face_value": 9.5,
+        "threshold": 19.0,
+        "expire_at": "2026-12-31",
+        "days_left": 83,
+        "efficiency": 0.5,
+        "reachable_by_typical_order": true,
+        "typical_order_payable": 47.0,
+        "redeemable_in_store": true,
+        "urgency": 0.2,
+        "priority_score": 0.1,
+        "action": "常规券，按需使用"
+      },
+      {
+        "coupon_id": "C2026B05",
+        "name": "满40减10 门店限定券",
+        "face_value": 10.0,
+        "threshold": 40.0,
+        "expire_at": "2026-11-15",
+        "days_left": 37,
+        "efficiency": 0.25,
+        "reachable_by_typical_order": true,
+        "typical_order_payable": 47.0,
+        "redeemable_in_store": false,
+        "urgency": 0.2,
+        "priority_score": 0.05,
+        "action": "当前门店不可用，需换店或换券"
+      },
+      {
+        "coupon_id": "C2026B03",
+        "name": "满50减15 大额券",
+        "face_value": 15.0,
+        "threshold": 50.0,
+        "expire_at": "2026-11-30",
+        "days_left": 52,
+        "efficiency": 0.3,
+        "reachable_by_typical_order": false,
+        "typical_order_payable": 47.0,
+        "redeemable_in_store": true,
+        "urgency": 0.2,
+        "priority_score": 0.018,
+        "action": "门槛¥50.0高于你的典型消费，优先级低"
+      }
+    ],
+    "trace": {
+      "formula": "门槛效率 = 面额 / 门槛（无门槛记为 99）；典型消费 = 历史订单实付的中位数；建议分 = min(效率,5) × 紧迫度 × 可达性系数",
+      "typical_order_payable": 47.0,
+      "median_formula": "奇数样本取 pays[n//2]；偶数样本取 (pays[n//2-1]+pays[n//2])/2"
+    }
+  },
+  "playbook": {
+    "actions": [
+      {
+        "type": "reduce_delivery",
+        "title": "改用到店取餐替代部分外送",
+        "reason": "全年配送费共¥36.0，6单平均每单¥6.0",
+        "est_saving": 18.0,
+        "assumption": "假设 50% 的外送单可改为到店自取（仅为估算情景，非承诺）",
+        "evidence": {
+          "order_nos": [
+            "MCD20260120002",
+            "MCD20260328006",
+            "MCD20260530010",
+            "MCD20260925018",
+            "MCD20261030020",
+            "MCD20261224024"
+          ]
+        },
+        "needs_confirmation": false
+      },
+      {
+        "type": "shift_timing",
+        "title": "错峰下单",
+        "reason": "你的 13 单集中在午餐(10-14)，该时段通常是高峰溢价时段",
+        "est_saving": null,
+        "assumption": "错峰能否省钱取决于当期活动，需实时核价确认",
+        "evidence": {
+          "slot": "午餐(10-14)",
+          "count": 13
+        },
+        "needs_confirmation": false
+      },
+      {
+        "type": "points_check",
+        "title": "核对即将过期的积分",
+        "reason": "积分会贬值，需在使用前核算兑换 ROI",
+        "est_saving": null,
+        "evidence": {
+          "note": "调用 query-my-account 获取 expiring_soon"
+        },
+        "needs_confirmation": false
+      }
+    ],
+    "estimated_total_saving": 18.0,
+    "disclaimer": "以上为基于历史数据的情景估算，实际优惠以麦当劳官方实时核价为准。",
+    "trace": {
+      "formula": "可省金额 = 各可量化动作的 est_saving 之和",
+      "coupon_sources": []
+    }
+  },
+  "points": {
+    "available": 3860,
+    "total_earned": 9120,
+    "frozen": 200,
+    "expiring_soon": 1200,
+    "expiring_at": "2026-12-31"
+  }
+}

@@ -1,0 +1,4 @@
+{
+  "owner_name": "你的昵称",
+  "_说明": "复制本文件为 data/user.json 后，在 owner_name 里填你想在年报开场屏显示的名字（如麦当劳 App 的昵称），保存后重新生成年报即可生效。留空则显示「我自己」。data/user.json 已被 .gitignore 排除，不会入库。"
+}

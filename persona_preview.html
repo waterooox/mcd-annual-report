@@ -1,0 +1,1019 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>麦麦人格 · 全部预览</title><style>
+:root{
+  /* 麦当劳官方主色 */
+  --brand-red:#DA291C;
+  --brand-yellow:#FFC72C;
+  --brand-red-deep:#A81C11;
+  --brand-brown:#2A1F1A;
+
+  --bg:#FFFBF5;              /* 暖白底，不是纯白 */
+  --bg-alt:#FFF6E9;
+  --bg-tint:#FFF1DC;         /* 更暖的强调底 */
+
+  --fg:#2A1F1A;
+  --muted:#8A7A6E;
+  --accent:var(--brand-red);
+  --card:rgba(255,255,255,.78);
+  --line:rgba(42,31,26,.12);
+  --shadow:0 8px 30px rgba(160,110,60,.11);
+  --shadow-lg:0 18px 50px rgba(160,110,60,.16);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--fg);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",
+              "Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+
+/* ===============================================================
+   符号层：金拱门
+   =============================================================== */
+.ga{display:block;flex:0 0 auto}
+.ga.wm{position:absolute;top:7vh;right:6vw;pointer-events:none}
+.ga.div{margin:20px 0 6px}
+.arches-hero{
+  display:flex;justify-content:center;align-items:center;
+  margin-bottom:clamp(10px,2.4vh,26px);
+  filter:drop-shadow(0 10px 26px rgba(218,41,28,.22));
+}
+.arches-hero .ga{
+  animation:archIn .95s cubic-bezier(.22,1,.36,1) both;
+}
+@keyframes archIn{
+  from{opacity:0;transform:translateY(22px) scale(.9)}
+  to{opacity:1;transform:none}
+}
+
+/* ===============================================================
+   背景：自制几何纹理（品牌联想，无版权风险）
+   =============================================================== */
+.scene{
+  min-height:100vh;display:flex;flex-direction:column;justify-content:center;
+  padding:11vh 7vw 9vh;position:relative;overflow:hidden;
+  cursor:pointer;
+  border-bottom:1px solid rgba(218,41,28,.07);
+  background-image:
+    /* 薯条：细长黄条 */
+    linear-gradient(90deg, transparent 0 96%, rgba(255,199,44,.26) 96% 100%),
+    /* 汉堡：横向层次 */
+    linear-gradient(180deg,
+      rgba(218,41,28,.045) 0 2px, transparent 2px 34px,
+      rgba(255,199,44,.06) 34px 36px, transparent 36px 70px),
+    /* 网点 */
+    radial-gradient(circle, rgba(218,41,28,.05) 1.5px, transparent 1.5px);
+  background-size: 78px 100%, 100% 70px, 27px 27px;
+}
+.scene:nth-child(even){background-color:var(--bg-alt)}
+.scene::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(circle at 16% 10%, rgba(255,199,44,.24), transparent 52%),
+             radial-gradient(circle at 90% 88%, rgba(218,41,28,.09), transparent 50%);
+}
+/* 开场/结尾屏：品牌色块压顶，做"签名屏" */
+.scene.hero{
+  background-color:var(--bg-tint);
+  background-image:
+    linear-gradient(180deg, var(--brand-red) 0 10px, transparent 10px),
+    radial-gradient(circle at 50% 26%, rgba(255,199,44,.30), transparent 62%);
+}
+.scene.hero::before{background:none}
+/* 开场屏右下角版权署名 */
+.credit{
+  position:absolute;right:20px;bottom:16px;z-index:5;
+  font-size:11px;letter-spacing:.03em;color:var(--muted);
+}
+.scene.finale{
+  background-color:var(--brand-brown);
+  background-image:
+    radial-gradient(circle at 84% 16%, rgba(255,199,44,.16), transparent 56%),
+    radial-gradient(circle at 12% 92%, rgba(218,41,28,.30), transparent 54%);
+  color:#FFF6E9;
+}
+.scene.finale .kicker{color:var(--brand-yellow)}
+.scene.finale .kicker::after{background:var(--brand-red)}
+.scene.finale .big{color:var(--brand-yellow)}
+.scene.finale .lines p{color:#F3E3D2;background:rgba(255,255,255,.07)}
+.scene.finale .lines p.small{color:#C9B2A0}
+.scene.finale .formula{color:#E8C98F;background:rgba(255,199,44,.13)}
+
+/* ===============================================================
+   排版层
+   =============================================================== */
+.kicker{
+  font-size:12.5px;letter-spacing:.26em;color:var(--brand-red);
+  text-transform:uppercase;margin-bottom:24px;font-weight:800;
+  display:inline-block;position:relative;padding-left:2px;
+}
+.kicker::after{
+  content:"";position:absolute;left:2px;bottom:-8px;width:38px;height:4px;
+  background:var(--brand-yellow);border-radius:2px;
+}
+.big{
+  font-size:clamp(40px,8.6vw,88px);font-weight:800;line-height:1.05;
+  letter-spacing:-.035em;margin-bottom:22px;color:var(--brand-red-deep);
+}
+.big.plain{color:var(--fg)}
+.big.hero-name{
+  font-size:clamp(34px,7vw,72px);letter-spacing:-.02em;
+}
+.big .unit{
+  display:block;font-size:clamp(13px,1.8vw,16px);font-weight:700;
+  letter-spacing:.2em;color:var(--muted);margin-top:10px;
+  text-transform:uppercase;
+}
+.lines{display:flex;flex-direction:column;gap:11px;max-width:680px}
+.lines p{
+  font-size:clamp(15px,2.3vw,18.5px);line-height:1.78;color:#4A3B33;
+  background:var(--card);border-radius:14px;padding:10px 16px;
+  border-left:3px solid rgba(255,199,44,.85);
+  backdrop-filter:blur(3px);
+}
+.lines p.small{font-size:13.5px;color:var(--muted);border-left-color:rgba(218,41,28,.28)}
+
+/* 规则列表：行为画像的判定规则，用紧凑的行式排版而非卡片 */
+.rules{
+  display:grid;gap:7px;margin-top:18px;max-width:720px;
+}
+.rules li{
+  list-style:none;font-size:12.8px;line-height:1.62;color:#5A4A40;
+  background:rgba(255,255,255,.62);border-radius:10px;
+  padding:8px 13px 8px 34px;position:relative;
+  border:1px solid rgba(218,41,28,.10);
+}
+.rules li::before{
+  content:"";position:absolute;left:13px;top:14px;
+  width:9px;height:9px;border-radius:50%;
+  background:var(--brand-yellow);
+  box-shadow:0 0 0 2.5px rgba(218,41,28,.16);
+}
+.rules li.hit{
+  background:rgba(255,199,44,.16);border-color:rgba(218,41,28,.28);
+  color:#3A2C24;font-weight:600;
+}
+.rules li.hit::before{background:var(--brand-red);box-shadow:0 0 0 2.5px rgba(218,41,28,.22)}
+.formula{
+  margin-top:16px;font-size:12px;color:#9A7B5E;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  background:rgba(255,199,44,.18);border-left:3px solid var(--brand-yellow);
+  padding:8px 13px;border-radius:0 9px 9px 0;display:inline-block;
+  line-height:1.6;
+}
+
+/* 胶囊标签：麦当劳广告里常见的语汇 */
+.trait-mini{display:flex;flex-wrap:wrap;gap:9px;margin-top:20px}
+.trait-mini span{
+  font-size:13px;font-weight:600;background:#fff;
+  border:1.5px solid rgba(218,41,28,.24);
+  border-radius:999px;padding:7px 15px;color:#5A4A40;
+  box-shadow:0 3px 10px rgba(160,110,60,.08);
+}
+.trait-mini span.on{
+  border-color:var(--brand-red);background:var(--brand-red);
+  color:#fff;box-shadow:0 5px 16px rgba(218,41,28,.28);
+}
+
+/* 顶部导航条：品牌红压顶 + 金色拱门 */
+.topbar{
+  position:fixed;top:0;left:0;right:0;z-index:25;height:52px;
+  display:flex;align-items:center;gap:12px;padding:0 20px;
+  background:linear-gradient(90deg,var(--brand-red),var(--brand-red-deep));
+  box-shadow:0 3px 18px rgba(168,28,17,.24);
+}
+.topbar .brand{
+  color:#fff;font-weight:800;font-size:15.5px;letter-spacing:.02em;
+  display:flex;align-items:baseline;gap:8px;
+}
+.topbar .brand em{
+  font-style:normal;font-weight:600;font-size:11px;color:rgba(255,255,255,.72);
+  letter-spacing:.16em;
+}
+.topbar .backbtn{
+  cursor:pointer;border:none;background:rgba(255,255,255,.16);
+  color:#fff;font-size:16px;font-weight:800;width:34px;height:34px;
+  border-radius:10px;display:flex;align-items:center;justify-content:center;
+  transition:.15s;flex:0 0 auto;padding:0;
+}
+.topbar .backbtn:hover{background:var(--brand-yellow);color:#7A2E00}
+.topbar .backbtn:disabled{opacity:.3;cursor:default;background:rgba(255,255,255,.16);color:#fff}
+
+.scrollhint{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+  font-size:11.5px;color:#fff;letter-spacing:.18em;z-index:10;font-weight:700;
+  background:var(--brand-red);border-radius:999px;padding:8px 18px;
+  box-shadow:0 6px 22px rgba(218,41,28,.34);animation:bob 1.9s ease-in-out infinite;
+}
+.scrollhint.off{animation:none;opacity:0;pointer-events:none;transition:opacity .35s}
+
+/* ===============================================================
+   署名输入层：首次打开请用户留名（localStorage 记住，点击开场屏名字可改）
+   =============================================================== */
+.name-overlay{
+  position:fixed;inset:0;z-index:60;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(38,24,14,.46);backdrop-filter:blur(6px);
+  opacity:0;visibility:hidden;transition:opacity .35s, visibility .35s;
+}
+.name-overlay.show{opacity:1;visibility:visible}
+.name-card{
+  background:var(--bg);border-radius:24px;padding:32px 30px 26px;
+  max-width:min(88vw,420px);width:88vw;text-align:center;
+  box-shadow:0 30px 80px rgba(30,15,5,.42);
+  border-top:6px solid var(--brand-red);
+}
+.name-card .ga{margin:0 auto 6px}
+.name-q{
+  font-size:17px;font-weight:800;color:var(--brand-red-deep);
+  margin:12px 0 18px;line-height:1.55;
+}
+.name-input{
+  width:100%;box-sizing:border-box;font-size:16px;font-weight:700;color:var(--fg);
+  padding:12px 16px;border:2px solid rgba(218,41,28,.3);border-radius:12px;
+  outline:none;background:#fff;text-align:center;
+  transition:border-color .15s, box-shadow .15s;
+}
+.name-input:focus{border-color:var(--brand-red);box-shadow:0 0 0 4px rgba(255,199,44,.28)}
+.name-input::placeholder{color:#B8A89A;font-weight:600}
+.name-go{
+  margin-top:16px;width:100%;cursor:pointer;border:none;
+  font-size:15px;font-weight:800;color:#fff;letter-spacing:.04em;
+  background:linear-gradient(90deg,var(--brand-red),var(--brand-red-deep));
+  border-radius:999px;padding:13px 0;
+  box-shadow:0 8px 22px rgba(218,41,28,.28);
+  transition:transform .18s, box-shadow .18s;
+}
+.name-go:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(218,41,28,.38)}
+.name-note{margin-top:12px;font-size:11px;color:var(--muted)}
+.name-skip{
+  display:block;margin:10px auto 0;cursor:pointer;
+  background:none;border:none;padding:0;
+  font-size:12px;color:var(--muted);text-decoration:underline;
+}
+.name-skip:hover{color:var(--brand-red)}
+
+/* 分享卡预览浮层：长按/右键保存（不依赖 a.download，兼容 iframe/移动端） */
+.share-overlay{
+  position:fixed;inset:0;z-index:70;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(38,24,14,.55);backdrop-filter:blur(6px);
+  opacity:0;visibility:hidden;transition:opacity .3s, visibility .3s;
+  overflow:auto;
+}
+.share-overlay.show{opacity:1;visibility:visible}
+.share-card{
+  background:var(--bg);border-radius:20px;padding:20px 20px 18px;
+  max-width:min(88vw,560px);text-align:center;
+  box-shadow:0 30px 80px rgba(30,15,5,.5);
+  border-top:6px solid var(--brand-red);
+}
+.share-q{font-size:14px;font-weight:800;color:var(--brand-red-deep);margin-bottom:14px}
+.share-img{
+  display:block;width:100%;max-width:420px;margin:0 auto;
+  border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.18);
+  -webkit-user-drag:element;
+}
+.share-down,.share-close{
+  cursor:pointer;border:none;border-radius:999px;
+  font-size:14px;font-weight:800;letter-spacing:.04em;padding:10px 22px;
+  margin:14px 6px 0;transition:.18s;
+}
+.share-down{color:#fff;background:linear-gradient(90deg,var(--brand-red),var(--brand-red-deep))}
+.share-down:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(218,41,28,.3)}
+.share-close{color:var(--muted);background:rgba(42,31,26,.08)}
+.share-close:hover{background:rgba(42,31,26,.14)}
+@keyframes bob{0%,100%{transform:translate(-50%,0);opacity:.84}50%{transform:translate(-50%,7px);opacity:1}}
+.progress{
+  position:fixed;top:52px;left:0;height:3px;z-index:30;width:0;transition:width .1s;
+  background:linear-gradient(90deg,#FFE08A,var(--brand-yellow));
+}
+.scene{opacity:0;transform:translateY(36px);transition:opacity .8s ease,transform .8s ease}
+.scene.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  .scene{opacity:1;transform:none;transition:none}
+  .scrollhint{animation:none}
+  .arches-hero .ga{animation:none}
+}
+
+/* ===============================================================
+   人格预告屏：大字悬念 + 偏下侧中间的「揭晓」按钮
+   =============================================================== */
+.scene.teaser{justify-content:center;align-items:center;text-align:center}
+.scene.teaser .kicker::after{left:50%;transform:translateX(-50%)}
+.teaser-big{
+  font-size:clamp(34px,7vw,70px);font-weight:800;line-height:1.15;
+  letter-spacing:-.03em;color:var(--brand-red-deep);
+  margin-bottom:16px;max-width:760px;
+}
+.teaser-lines{max-width:560px;align-items:center}
+.teaser-lines p{border-left:none;text-align:center;background:transparent;
+  backdrop-filter:none;padding:0;color:#6B5A4E}
+.teaser-btn{
+  cursor:pointer;border:none;font-size:16px;font-weight:800;letter-spacing:.04em;
+  color:#fff;background:linear-gradient(90deg,var(--brand-red),var(--brand-red-deep));
+  border-radius:999px;padding:15px 34px;
+  margin-top:clamp(56px,14vh,150px);
+  box-shadow:0 10px 30px rgba(218,41,28,.32);
+  transition:transform .18s, box-shadow .18s, background .18s;
+  position:relative;z-index:5;
+}
+.teaser-btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 16px 42px rgba(218,41,28,.42);
+  background:linear-gradient(90deg,var(--brand-red-deep),var(--brand-red));
+}
+.teaser-btn:active{transform:translateY(-1px);box-shadow:0 8px 24px rgba(218,41,28,.3)}
+
+/* ===============================================================
+   翻页过渡：模拟真实书页翻起——先掀角、再加速翻过、最后落下
+   =============================================================== */
+.scene.page-flip{
+  z-index:6;transform-origin:left center;
+  transform-style:preserve-3d;
+  animation:pageFlipOut .7s cubic-bezier(.4,.08,.2,.95) forwards;
+}
+.scene.page-flip::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(90deg, rgba(22,14,8,.55), rgba(22,14,8,.16) 52%, rgba(22,14,8,0) 78%);
+  opacity:0;
+  animation:pageFlipShade .7s cubic-bezier(.4,.08,.2,.95) forwards;
+}
+@keyframes pageFlipOut{
+  0%   {transform:perspective(1050px) rotateY(0deg) rotateX(0deg);}
+  18%  {transform:perspective(1050px) rotateY(-9deg) rotateX(-6deg);}
+  55%  {transform:perspective(1050px) rotateY(-74deg) rotateX(-2deg);}
+  100% {transform:perspective(1050px) rotateY(-118deg) rotateX(0deg);opacity:.3;}
+}
+@keyframes pageFlipShade{
+  0%  {opacity:0}
+  30% {opacity:.45}
+  62% {opacity:.82}
+  100%{opacity:.22}
+}
+@media (prefers-reduced-motion:reduce){
+  .scene.page-flip{animation:none;z-index:auto}
+  .scene.page-flip::after{animation:none;opacity:0}
+}
+
+.foot{
+  text-align:center;font-size:11px;color:var(--muted);padding:40px 20px 66px;
+  line-height:2;background:var(--bg-alt);
+  border-top:1px solid rgba(218,41,28,.1);
+}
+.foot .ga{margin:0 auto 16px}
+
+/* 数据来源徽章 */
+.mockbadge,.realbadge{
+  position:fixed;top:60px;right:14px;z-index:30;font-size:11px;font-weight:700;
+  border-radius:999px;padding:6px 14px;backdrop-filter:blur(6px);
+}
+.mockbadge{color:#8A5A00;background:rgba(255,199,44,.55);border:1px solid rgba(218,41,28,.3)}
+.realbadge{color:#1B7A3E;background:rgba(160,224,180,.6);border:1px solid rgba(27,122,62,.32)}
+
+@media (max-width:640px){
+  .ga.wm{width:76px;top:6vh;right:5vw}
+  .scene{padding:9vh 6vw 8vh}
+}
+
+/* ===============================================================
+   麦麦人格屏：人格名做成"证书/奖章"式的品牌卡片
+   =============================================================== */
+.scene.persona{background-color:#FFFDF8}
+.persona-card{
+  position:relative;max-width:760px;margin-top:6px;
+  padding:0;border-radius:26px;overflow:hidden;
+  box-shadow:0 22px 60px rgba(160,110,60,.20);
+  border:1px solid rgba(218,41,28,.14);
+}
+.persona-card .band{
+  height:14px;width:100%;
+}
+.persona-card .inner{
+  background:rgba(255,255,255,.92);padding:clamp(22px,3.4vw,36px);
+  backdrop-filter:blur(4px);
+}
+/* ---- 隐藏人格：暗色底 + 青蓝辉光，与普通证书卡形成"彩蛋"反差 ---- */
+.scene.persona.hidden{background-color:#0B1020}
+.scene.persona.hidden .kicker{color:#7FE3F0}
+.scene.persona.hidden .kicker::after{background:#7FE3F0}
+.persona-card.hidden{
+  border-color:rgba(0,188,212,.42);
+  box-shadow:0 22px 70px rgba(0,188,212,.34),0 0 0 1px rgba(127,227,240,.18);
+}
+.persona-card.hidden .inner{
+  background:linear-gradient(160deg,#101A33,#0B1020 60%);
+  backdrop-filter:none;
+}
+.persona-card.hidden .persona-title{color:#EAF6FF;border-bottom-color:rgba(127,227,240,.22)}
+.persona-card.hidden .persona-count .num{color:#7FE3F0}
+.persona-card.hidden .persona-count .u{color:rgba(234,246,255,.6)}
+.persona-card.hidden .lines p{
+  background:rgba(127,227,240,.10);color:#DCEBFA;border-left-color:#00BCD4;
+}
+.persona-card.hidden .persona-subs .lbl{color:rgba(220,235,250,.55)}
+.persona-card.hidden .persona-subs .sub{
+  background:rgba(127,227,240,.16);color:#BFE9F5;border-color:rgba(127,227,240,.34);
+}
+.persona-card.hidden .persona-roster summary{color:#9FD8E6;border-color:rgba(127,227,240,.3)}
+.persona-card.hidden .persona-roster summary:hover{background:#00BCD4;color:#06121C;border-color:#00BCD4}
+.persona-card.hidden .persona-roster .roster{background:rgba(127,227,240,.06);border-color:rgba(127,227,240,.16)}
+.persona-card.hidden .persona-roster .roster div{border-bottom-color:rgba(127,227,240,.12)}
+.persona-card.hidden .persona-roster .roster b{color:#7FE3F0}
+.persona-card.hidden .persona-roster .roster em{color:rgba(220,235,250,.5)}
+.persona-card.hidden .persona-roster .roster .n{color:#EAF6FF}
+/* 保存图片按钮 */
+.save-btn{
+  display:block;margin:20px 0 0;cursor:pointer;
+  font-size:14px;font-weight:800;letter-spacing:.04em;
+  color:var(--brand-red);background:#fff;
+  border:2px solid var(--brand-red);border-radius:999px;
+  padding:10px 22px;transition:.18s;
+}
+.save-btn:hover{color:#fff;background:var(--brand-red);box-shadow:0 8px 22px rgba(218,41,28,.28)}
+.persona-card.hidden .save-btn{
+  color:#7FE3F0;border-color:rgba(127,227,240,.5);background:rgba(127,227,240,.06);
+}
+.persona-card.hidden .save-btn:hover{color:#06121C;background:#00BCD4;border-color:#00BCD4}
+.persona-card.hidden .formula{color:rgba(220,235,250,.5)}
+/* 解锁横幅 */
+.hidden-banner{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:12px;font-weight:800;letter-spacing:.16em;
+  color:#06121C;background:linear-gradient(90deg,#7FE3F0,#00BCD4);
+  border-radius:999px;padding:7px 16px;margin-bottom:16px;
+  box-shadow:0 6px 22px rgba(0,188,212,.5);
+  animation:pulseGlow 2.4s ease-in-out infinite;
+}
+@keyframes pulseGlow{
+  0%,100%{box-shadow:0 6px 22px rgba(0,188,212,.45)}
+  50%{box-shadow:0 6px 34px rgba(127,227,240,.85)}
+}
+@media (prefers-reduced-motion:reduce){
+  .hidden-banner{animation:none}
+}
+.persona-title{
+  font-size:clamp(38px,7.8vw,74px);font-weight:800;line-height:1.04;
+  letter-spacing:-.04em;color:var(--brand-red-deep);
+  display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  padding-bottom:16px;margin-bottom:18px;
+  border-bottom:2px solid rgba(218,41,28,.14);
+}
+.persona-count{
+  display:flex;align-items:baseline;gap:9px;
+  margin-left:auto;            /* 推到标题行右侧（用户要求） */
+  transform:translateY(2px);
+}
+.persona-count .num{
+  font-size:clamp(24px,4.2vw,40px);font-weight:800;letter-spacing:-.03em;
+  color:var(--brand-red);line-height:1;
+}
+.persona-count .u{
+  font-size:clamp(12px,1.7vw,14.5px);font-weight:700;color:var(--muted);
+  letter-spacing:.06em;
+}
+.persona-card .lines p{background:rgba(255,251,245,.9)}
+.persona-card .lines p b{color:var(--brand-red);font-weight:800}
+.persona-card.hidden .lines p b{color:#7FE3F0}
+.persona-subs{
+  display:flex;flex-wrap:wrap;gap:9px;margin-top:18px;
+  padding-top:16px;border-top:1px dashed rgba(218,41,28,.2);
+}
+.persona-subs .lbl{
+  font-size:12px;font-weight:800;color:var(--muted);letter-spacing:.14em;
+  align-self:center;margin-right:2px;
+}
+/* 副人格胶囊：点击展开"迷你证书"（同主人格的信息结构） */
+.persona-subs .sub{display:inline-block}
+.persona-subs .sub summary{
+  cursor:pointer;list-style:none;user-select:none;
+  font-size:13px;font-weight:700;border-radius:999px;padding:7px 15px;
+  background:var(--brand-yellow);color:#5A3A00;
+  box-shadow:0 3px 10px rgba(255,199,44,.4);transition:.15s;
+}
+.persona-subs .sub summary::-webkit-details-marker{display:none}
+.persona-subs .sub summary:hover{background:var(--brand-red);color:#fff}
+.persona-subs .sub[open] summary{
+  background:var(--brand-red);color:#fff;
+  box-shadow:0 5px 16px rgba(218,41,28,.3);
+}
+.sub-detail{
+  margin-top:10px;background:rgba(255,251,245,.97);
+  border:1.5px solid rgba(255,199,44,.6);border-radius:14px;
+  padding:14px 16px;max-width:460px;box-shadow:var(--shadow);
+}
+.sub-detail .sub-name{
+  font-size:19px;font-weight:800;color:var(--brand-red-deep);letter-spacing:-.01em;
+  display:block;margin-bottom:8px;
+}
+.sub-detail .sub-count{
+  display:flex;align-items:baseline;gap:7px;margin-bottom:10px;
+  padding-bottom:9px;border-bottom:1.5px dashed rgba(218,41,28,.18);
+}
+.sub-detail .sub-count .num{font-size:24px;font-weight:800;color:var(--brand-red)}
+.sub-detail .sub-count .u{font-size:12px;font-weight:700;color:var(--muted)}
+.sub-detail .sub-lines{display:flex;flex-direction:column;gap:7px}
+.sub-detail .sub-lines p{
+  font-size:13px;line-height:1.65;color:#4A3B33;
+  background:rgba(255,199,44,.13);border-left:3px solid rgba(255,199,44,.85);
+  border-radius:0 9px 9px 0;padding:7px 11px;
+}
+.sub-detail .sub-trg{margin-top:9px;font-size:11px;color:var(--muted);line-height:1.6}
+/* 隐藏人格屏内的副人格展开卡（暗色变体） */
+.persona-card.hidden .sub-detail{
+  background:rgba(16,26,51,.95);border-color:rgba(127,227,240,.3);
+}
+.persona-card.hidden .sub-detail .sub-name{color:#EAF6FF}
+.persona-card.hidden .sub-detail .sub-lines p{
+  background:rgba(127,227,240,.1);color:#DCEBFA;border-left-color:#00BCD4;
+}
+.persona-card.hidden .sub-detail .sub-trg{color:rgba(220,235,250,.55)}
+/* 人格候补清单（可回溯） */
+.persona-roster{margin-top:14px;font-size:12.5px}
+.persona-roster summary{
+  cursor:pointer;color:var(--muted);user-select:none;font-weight:600;
+  border:1px solid rgba(218,41,28,.3);border-radius:999px;padding:6px 16px;
+  display:inline-block;background:rgba(255,255,255,.7);transition:.2s;
+}
+.persona-roster summary:hover{color:#fff;background:var(--brand-red);border-color:var(--brand-red)}
+.persona-roster .roster{
+  margin-top:11px;display:grid;gap:6px;
+}
+.persona-roster .roster div{
+  background:#fff;border:1px solid var(--line);border-radius:9px;
+  padding:8px 13px;display:flex;justify-content:space-between;gap:14px;
+  align-items:baseline;
+}
+.persona-roster .roster b{color:var(--brand-red-deep);font-size:13px}
+.persona-roster .roster em{
+  font-style:normal;color:var(--muted);font-size:11px;text-align:right;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+.persona-roster .roster .n{color:var(--fg);font-weight:700;white-space:nowrap}
+
+.pv-wrap{max-width:920px;margin:0 auto}
+.pv-head{text-align:center;padding:36px 20px 8px}
+.pv-head h1{font-size:26px;color:#DA291C;font-weight:800;letter-spacing:-.02em;margin-top:10px}
+.pv-head .ga{margin:0 auto}
+.pv-item{margin:0 0 8px}
+.pv-label{max-width:920px;margin:18px auto 0;padding:0 6vw;font-size:14px;font-weight:800;color:#2A1F1A;letter-spacing:.04em}
+.pv-empty{padding:30px;text-align:center;color:#8A7A6E}
+.scene{min-height:auto;opacity:1;transform:none;transition:none;padding:22px 6vw 30px}
+.scene.persona{min-height:auto}
+.scene .ga.wm{top:auto;bottom:12px}
+.foot-pv{text-align:center;font-size:11px;color:#8A7A6E;padding:40px 20px}
+</style></head><body>
+<div class="pv-wrap"><div class="pv-head"><svg class="ga" viewBox="0 0 108 66" width="72px" aria-hidden="true" style="opacity:1.0;color:#DA291C"><g fill="none" stroke="currentColor" stroke-width="12.5" stroke-linecap="butt"><path d="M3,60 Q28,-14 53,60"/><path d="M55,2 Q80,-72 105,2" transform="translate(0,58)"/></g></svg>
+<h1>麦麦人格 · 15 个全部预览</h1></div><div class="pv-item"><div class="pv-label">① 薯条钢琴家 · 单品型</div>
+  <section class="scene persona" data-idx="0">
+    <svg class="ga wm" viewBox="0 0 108 66" width="120px" aria-hidden="true" style="opacity:0.06;color:currentColor"><g fill="none" stroke="currentColor" stroke-width="12.5" stroke-linecap="butt"><path d="M3,60 Q28,-14 53,60"/><path d="M55,2 Q80,-72 105,2" transform="translate(0,58)"/></g></svg>
+    <div class="kicker">你的麦麦人格是</div>
+    <div class="persona-card">
+      <div class="band" style="background:linear-gradient(135deg,#FFC72C,#F5A623)"></div>
+      <div class="inner">
+        
+        <div class="persona-title">
+          <span>薯条钢琴家</span>
+          <span class="persona-count">
+            <span class="num">8 盒</span>
+            <span class="u">本年度累计</span>
+          </span>
+        </div>
+        <div class="lines"><p>本年度你一共吃了 8 盒薯条。</p><p>8 盒一场八重奏、4 盒一场四重奏、2 盒一场双重奏 —— 你这一年凑出了：1 场八重奏。</p><p class=small>在薯门的世界里，「水牛先生」是名副其实的<b>救薯</b>。</p></div>
+        
+        
+        <details class="persona-roster">
+          <summary>↺ 人格是怎么判的（1 项命中）</summary>
+          <div class="roster"><div><b>薯条钢琴家</b><em>商品名包含：薯条</em><span class="n">8 盒</span></div></div>
+          <div class="formula" style="margin-top:10px">
+            本年度商品明细：薯条×8<br>
+            人格取"累计数量最高"的一项为「主人格」，其余为「副人格」；
+            数量并列时，名字更具体的人格优先。
+          </div>
+        </details>
+        <button class="save-btn" id="save-btn">保存我的麦麦人格图片</button>
+      </div>
+    </div>
+  </section></div><div class="pv-item"><div class="pv-label">② 极品小学生 · 组合型</div>
+  <section class="scene persona" data-idx="0">
+    <svg class="ga wm" viewBox="0 0 108 66" width="120px" aria-hidden="true" style="opacity:0.06;color:currentColor"><g fill="none" stroke="currentColor" stroke-width="12.5" stroke-linecap="butt"><path d="M3,60 Q28,-14 53,60"/><path d="M55,2 Q80,-72 105,2" transform="translate(0,58)"/></g></svg>
+    <div class="kicker">你的麦麦人格是</div>
+    <div class="persona-card">
+      <div class="band" style="background:linear-gradient(135deg,#DA291C,#E8632A)"></div>
+      <div class="inner">
+        
+        <div class="persona-title">
+          <span>极品小学生</span>
+          <span class="persona-count">
+            <span class="num">5 份</span>
+            <span class="u">本年度累计</span>
+          </span>
+        </div>
+        <div class="lines"><p>本年度你一共吃了 5 份「随心配 / 1+1」。</p><p>按平均一份省下 6 元估算，你把「精打细算」四个字吃成了肌肉记忆。</p><p class=small>1+1 之王，非你莫薯。</p></div>
+        
+        
+        <details class="persona-roster">
+          <summary>↺ 人格是怎么判的（1 项命中）</summary>
+          <div class="roster"><div><b>极品小学生</b><em>商品名包含：随心配 / 1+1 / 随心选</em><span class="n">5 份</span></div></div>
+          <div class="formula" style="margin-top:10px">
+            本年度商品明细：随心配×5<br>
+            人格取"累计数量最高"的一项为「主人格」，其余为「副人格」；
+            数量并列时，名字更具体的人格优先。
+          </div>
+        </details>
+        <button class="save-btn" id="save-btn">保存我的麦麦人格图片</button>
+      </div>
+    </div>
+  </section></div><div class="pv-item"><div class="pv-label">③ 旋麦 · 单品型</div>
+  <section class="scene persona" data-idx="0">
+    <svg class="ga wm" viewBox="0 0 108 66" width="120px" aria-hidden="true" style="opacity:0.06;color:currentColor"><g fill="none" stroke="currentColor" stroke-width="12.5" stroke-linecap="butt"><path d="M3,60 Q28,-14 53,60"/><path d="M55,2 Q80,-72 105,2" transform="translate(0,58)"/></g></svg>
+    <div class="kicker">你的麦麦人格是</div>
+    <div class="persona-card">
+      <div class="band" style="background:linear-gradient(135deg,#8B5CF6,#6366F1)"></div>
+      <div class="inner">
+        
+        <div class="persona-title">
+          <span>旋麦</span>
+          <span class="persona-count">
+            <span class="num">5 份</span>
+            <span class="u">本年度累计</span>
+          </span>
+        </div>
+        <div class="lines"><p>本年度你一共吃了 5 份麦旋风。</p><p>杯子转起来的时候，据说能看见「黑旋风」—— 你的旋风，麦麦的麦。</p></div>
+        
+        
+        <details class="persona-roster">
+          <summary>↺ 人格是怎么判的（1 项命中）</summary>
+          <div class="roster"><div><b>旋麦</b><em>商品名包含：麦旋风 / 旋风</em><span class="n">5 份</span></div></div>
+          <div class="formula" style="margin-top:10px">
+            本年度商品明细：麦旋风×5<br>
+            人格取"累计数量最高"的一项为「主人格」，其余为「副人格」；
+            数量并列时，名字更具体的人格优先。
+          </div>
+        </details>
+        <button class="save-btn" id="save-btn">保存我的麦麦人格图片</button>
+      </div>
+    </div>
+  </section></div><div class="pv-item"><div class="pv-label">④ 麦粒肿 · 单品型</div>
+  <section class="scene persona" data-idx="0">
+    <svg class="ga wm" viewBox="0 0 108 66" width="120px" aria-hidden="true" style="opacity:0.06;color:currentColor"><g fill="none" stroke="currentColor" stroke-width="12.5" stroke-linecap="butt"><path d="M3,60 Q28,-14 53,60"/><path d="M55,2 Q80,-72 105,2" transform="translate(0,58)"/></g></svg>
+    <div class="kicker">你的麦麦人格是</div>
+    <div class="persona-card">
+      <div class="band" style="background:linear-gradient(135deg,#F5C542,#C9A227)"></div>
+      <div class="inner">
+        
+        <div class="persona-title">
+          <span>麦粒肿</span>
+          <span class="persona-count">
+            <span class="num">5 杯</span>
+            <span class="u">本年度累计</span>
+          </span>
+        </div>
+        <div class="lines"><p>本年度你一共吃了 5 杯玉米杯。</p><p>照这个量，你无疑是台<b>玉米粉碎机</b>。</p><p class=small>温馨提示：本名沿用的是「玉米粒」的粒，跟眼科那个没关系，别慌。</p></div>
+        
+        
+        <details class="persona-roster">
+          <summary>↺ 人格是怎么判的（1 项命中）</summary>
+          <div class="roster"><div><b>麦粒肿</b><em>商品名包含：玉米杯 / 玉米</em><span class="n">5 杯</span></div></div>
+          <div class="formula" style="margin-top:10px">
+            本年度商品明细：玉米杯×5<br>
+            人格取"累计数量最高"的一项为「主人格」，其余为「副人格」；
+            数量并列时，名字更具体的人格优先。
+          </div>
+        </details>
+        <button class="save-btn" id="save-btn">保存我的麦麦人格图片</button>
+      </div>
+    </div>
+  </section></div><div class="pv-item"><div class="pv-label">⑤ 可劲儿乐呵 · 单品型</div>
+  <section class="scene persona" data-idx="0">
+    <svg class="ga wm" viewBox="0 0 108 66" width="120px" aria-hidden="true" style="opacity:0.06;color:currentColor"><g fill="none" stroke="currentColor" stroke-width="12.5" stroke-linecap="butt"><path d="M3,60 Q28,-14 53,60"/><path d="M55,2 Q80,-72 105,2" transform="translate(0,58)"/></g></svg>
+    <div class="kicker">你的麦麦人格是</div>
+    <div class="persona-card">
+      <div class="band" style="background:linear-gradient(135deg,#1E88E5,#0D47A1)"></div>
+      <div class="inner">
+        
+        <div class="persona-title">
+          <span>可劲儿乐呵</span>
+          <span class="persona-count">
+            <span class="num">6 杯</span>
+            <span class="u">本年度累计</span>
+          </span>
+        </div>
+        <div class="lines"><p>本年度你一共喝了 6 杯可乐。</p><p>气泡管够，快乐管饱 —— 看来你是一个非常快乐的人。</p></div>
+        
+        
+        <details class="persona-roster">
+          <summary>↺ 人格是怎么判的（1 项命中）</summary>
+          <div class="roster"><div><b>可劲儿乐呵</b><em>商品名包含：可乐</em><span class="n">6 杯</span></div></div>
+          <div class="formula" style="margin-top:10px">
+            本年度商品明细：可乐×6<br>
+            人格取"累计数量最高"的一项为「主人格」，其余为「副人格」；
+            数量并列时，名字更具体的人格优先。
+          </div>
+        </details>
+        <button class="save-btn" id="save-btn">保存我的麦麦人格图片</button>
+      </div>
+    </div>
+  </section></div><div class="pv-item"><div class="pv-label">⑥ 咖麦隆 · 单品型</div>
+  <section class="scene persona" data-idx="0">
+    <svg class="ga wm" viewBox="0 0 108 66" width="120px" aria-hidden="true" style="opacity:0.06;color:currentColor"><g fill="none" stroke="currentColor" stroke-width="12.5" stroke-linecap="butt"><path d="M3,60 Q28,-14 53,60"/><path d="M55,2 Q80,-72 105,2" transform="translate(0,58)"/></g></svg>
+    <div class="kicker">你的麦麦人格是</div>
+    <div class="persona-card">
+      <div class="band" style="background:linear-gradient(135deg,#6D4C41,#3E2723)"></div>
+      <div class="inner">
+        
+        <div class="persona-title">
+          <span>咖麦隆</span>
+          <span class="persona-count">
+            <span class="num">6 杯</span>
+            <span class="u">本年度累计</span>
+          </span>
+        </div>
+        <div class="lines"><p>你本年度一共喝了 6 杯麦咖啡系列。</p><p>别人在点餐，你在选豆；别人在续杯，你在续命。</p><p class=small>杯杯不落，场场首发 —— 咖麦隆，咖啡界的全能前锋。</p></div>
+        
+        
+        <details class="persona-roster">
+          <summary>↺ 人格是怎么判的（1 项命中）</summary>
+          <div class="roster"><div><b>咖麦隆</b><em>商品名包含：麦咖啡 / 拿铁 / 美式 / 卡布 / 摩卡 / 咖啡</em><span class="n">6 杯</span></div></div>
+          <div class="formula" style="margin-top:10px">
+            本年度商品明细：麦咖啡拿铁×6<br>
+            人格取"累计数量最高"的一项为「主人格」，其余为「副人格」；
+            数量并列时，名字更具体的人格优先。
+          </div>
+        </details>
+        <button class="save-btn" id="save-btn">保存我的麦麦人格图片</button>
+      </div>
+    </div>
+  </section></div><div class="pv-item"><div class="pv-label">⑦ 麦辣战神 · 单品型</div>
+  <section class="scene persona" data-idx="0">
+    <svg class="ga wm" viewBox="0 0 108 66" width="120px" aria-hidden="true" style="opacity:0.06;color:currentColor"><g fill="none" stroke="currentColor" stroke-width="12.5" stroke-linecap="butt"><path d="M3,60 Q28,-14 53,60"/><path d="M55,2 Q80,-72 105,2" transform="translate(0,58)"/></g></svg>
+    <div class="kicker">你的麦麦人格是</div>
+    <div class="persona-card">
+      <div class="band" style="background:linear-gradient(135deg,#DA291C,#8E0F06)"></div>
+      <div class="inner">
+        
+        <div class="persona-title">
+          <span>麦辣战神</span>
+          <span class="persona-count">
+            <span class="num">6 个</span>
+            <span class="u">本年度累计</span>
+          </span>
+        </div>
+        <div class="lines"><p>你本年度一共吃了 6 个麦辣系列汉堡。</p><p>别人的微辣是微辣，你的微辣是「再来一个」。</p></div>
+        
+        
+        <details class="persona-roster">
+          <summary>↺ 人格是怎么判的（1 项命中）</summary>
+          <div class="roster"><div><b>麦辣战神</b><em>商品名包含：麦辣鸡腿堡 / 麦辣鸡排堡 / 辣腿堡 / 辣堡 / 麦辣双层</em><span class="n">6 个</span></div></div>
+          <div class="formula" style="margin-top:10px">
+            本年度商品明细：麦辣鸡腿堡×6<br>
+            人格取"累计数量最高"的一项为「主人格」，其余为「副人格」；
+            数量并列时，名字更具体的人格优先。
+          </div>
+        </details>
+        <button class="save-btn" id="save-btn">保存我的麦麦人格图片</button>
+      </div>
+    </div>
+  </section></div><div class="pv-item"><div class="pv-label">⑧ 巨无霸原教旨 · 单品型</div>
+  <section class="scene persona" data-idx="0">
+    <svg class="ga wm" viewBox="0 0 108 66" width="120px" aria-hidden="true" style="opacity:0.06;color:currentColor"><g fill="none" stroke="currentColor" stroke-width="12.5" stroke-linecap="butt"><path d="M3,60 Q28,-14 53,60"/><path d="M55,2 Q80,-72 105,2" transform="translate(0,58)"/></g></svg>
+    <div class="kicker">你的麦麦人格是</div>
+    <div class="persona-card">
+      <div class="band" style="background:linear-gradient(135deg,#B71C1C,#7F0E0E)"></div>
+      <div class="inner">
+        
+        <div class="persona-title">
+          <span>巨无霸原教旨</span>
+          <span class="persona-count">
+            <span class="num">5 个</span>
+            <span class="u">本年度累计</span>
+          </span>
+        </div>
+        <div class="lines"><p>你本年度一共吃了 5 个巨无霸。</p><p>两层牛肉、三层面包、固定的那口酱 —— 经典之所以是经典，是因为你没换过。</p></div>
+        
+        
+        <details class="persona-roster">
+          <summary>↺ 人格是怎么判的（1 项命中）</summary>
+          <div class="roster"><div><b>巨无霸原教旨</b><em>商品名包含：巨无霸</em><span class="n">5 个</span></div></div>
+          <div class="formula" style="margin-top:10px">
+            本年度商品明细：巨无霸×5<br>
+            人格取"累计数量最高"的一项为「主人格」，其余为「副人格」；
+            数量并列时，名字更具体的人格优先。
+          </div>
+        </details>
+        <button class="save-btn" id="save-btn">保存我的麦麦人格图片</button>
+      </div>
+    </div>
+  </section></div><div class="pv-item"><div class="pv-label">⑨ 吉士行乐 · 单品型</div>
+  <section class="scene persona" data-idx="0">
+    <svg class="ga wm" viewBox="0 0 108 66" width="120px" aria-hidden="true" style="opacity:0.06;color:currentColor"><g fill="none" stroke="currentColor" stroke-width="12.5" stroke-linecap="butt"><path d="M3,60 Q28,-14 53,60"/><path d="M55,2 Q80,-72 105,2" transform="translate(0,58)"/></g></svg>
+    <div class="kicker">你的麦麦人格是</div>
+    <div class="persona-card">
+      <div class="band" style="background:linear-gradient(135deg,#F9A825,#E65100)"></div>
+      <div class="inner">
+        
+        <div class="persona-title">
+          <span>吉士行乐</span>
+          <span class="persona-count">
+            <span class="num">5 个</span>
+            <span class="u">本年度累计</span>
+          </span>
+        </div>
+        <div class="lines"><p>你本年度一共吃了 5 个吉士汉堡系列。</p><p>融化的芝士从来不缺席你的一餐 —— 及时行乐，趁热吃堡。</p><p class=small>吉士行乐，你悟了。</p></div>
+        
+        
+        <details class="persona-roster">
+          <summary>↺ 人格是怎么判的（1 项命中）</summary>
+          <div class="roster"><div><b>吉士行乐</b><em>商品名包含：吉士 / 芝士 / 双层吉士</em><span class="n">5 个</span></div></div>
+          <div class="formula" style="margin-top:10px">
+            本年度商品明细：双层吉士汉堡×5<br>
+            人格取"累计数量最高"的一项为「主人格」，其余为「副人格」；
+            数量并列时，名字更具体的人格优先。
+          </div>
+        </details>
+        <button class="save-btn" id="save-btn">保存我的麦麦人格图片</button>
+      </div>
+    </div>
+  </section></div><div class="pv-item"><div class="pv-label">⑩ 堡你周全 · 副人格位（组合型）</div>
+  <section class="scene persona" data-idx="0">
+    <svg class="ga wm" viewBox="0 0 108 66" width="120px" aria-hidden="true" style="opacity:0.06;color:currentColor"><g fill="none" stroke="currentColor" stroke-width="12.5" stroke-linecap="butt"><path d="M3,60 Q28,-14 53,60"/><path d="M55,2 Q80,-72 105,2" transform="translate(0,58)"/></g></svg>
+    <div class="kicker">你的麦麦人格是</div>
+    <div class="persona-card">
+      <div class="band" style="background:linear-gradient(135deg,#DA291C,#8E0F06)"></div>
+      <div class="inner">
+        
+        <div class="persona-title">
+          <span>麦辣战神</span>
+          <span class="persona-count">
+            <span class="num">16 个</span>
+            <span class="u">本年度累计</span>
+          </span>
+        </div>
+        <div class="lines"><p>你本年度一共吃了 16 个麦辣系列汉堡。</p><p>别人的微辣是微辣，你的微辣是「再来一个」。</p></div>
+        <div class="persona-subs"><span class="lbl">副人格</span><details class="sub">
+  <summary>堡你周全 · 28 个</summary>
+  <div class="sub-detail">
+    <b class="sub-name">堡你周全</b>
+    <div class="sub-count"><span class="num">28</span>
+      <span class="u">个 · 本年度累计</span></div>
+    <div class="sub-lines"><p>你本年度一共吃了 28 个汉堡 —— 从经典牛肉到香辣鸡腿，一个都没落下。</p><p>有面包、有肉、有酱，才叫一顿饭 —— 别的都是配菜。</p><p>堡你周全，你一个人把整张菜单吃成了一条线。</p></div>
+    <div class="sub-trg">触发条件：商品名包含：汉堡 / 巨无霸 / 吉士 / 芝士 / 麦辣鸡腿堡 / 麦辣鸡排堡 / 辣腿堡 / 辣堡 / 麦辣双层 / 双牛 / 双层牛 / 板烧 / 鸡腿堡 / 麦香 / 培根 / 牛堡</div>
+  </div>
+</details><details class="sub">
+  <summary>巨无霸原教旨 · 12 个</summary>
+  <div class="sub-detail">
+    <b class="sub-name">巨无霸原教旨</b>
+    <div class="sub-count"><span class="num">12</span>
+      <span class="u">个 · 本年度累计</span></div>
+    <div class="sub-lines"><p>你本年度一共吃了 12 个巨无霸。</p><p>两层牛肉、三层面包、固定的那口酱 —— 经典之所以是经典，是因为你没换过。</p></div>
+    <div class="sub-trg">触发条件：商品名包含：巨无霸</div>
+  </div>
+</details></div>
+        
+        <details class="persona-roster">
+          <summary>↺ 人格是怎么判的（3 项命中）</summary>
+          <div class="roster"><div><b>麦辣战神</b><em>商品名包含：麦辣鸡腿堡 / 麦辣鸡排堡 / 辣腿堡 / 辣堡 / 麦辣双层</em><span class="n">16 个</span></div><div><b>巨无霸原教旨</b><em>商品名包含：巨无霸</em><span class="n">12 个</span></div><div><b>堡你周全</b><em>商品名包含：汉堡 / 巨无霸 / 吉士 / 芝士 / 麦辣鸡腿堡 / 麦辣鸡排堡 / 辣腿堡 / 辣堡 / 麦辣双层 / 双牛 / 双层牛 / 板烧 / 鸡腿堡 / 麦香 / 培根 / 牛堡</em><span class="n">28 个</span></div></div>
+          <div class="formula" style="margin-top:10px">
+            本年度商品明细：麦辣鸡腿堡×16、巨无霸×12<br>
+            人格取"累计数量最高"的一项为「主人格」，其余为「副人格」；
+            数量并列时，名字更具体的人格优先。
+          </div>
+        </details>
+        <button class="save-btn" id="save-btn">保存我的麦麦人格图片</button>
+      </div>
+    </div>
+  </section></div><div class="pv-item"><div class="pv-label">⑪ 冰矛鸡爪流 · 隐藏人格</div>
+  <section class="scene persona hidden" data-idx="0">
+    <svg class="ga wm" viewBox="0 0 108 66" width="120px" aria-hidden="true" style="opacity:0.06;color:currentColor"><g fill="none" stroke="currentColor" stroke-width="12.5" stroke-linecap="butt"><path d="M3,60 Q28,-14 53,60"/><path d="M55,2 Q80,-72 105,2" transform="translate(0,58)"/></g></svg>
+    <div class="kicker">你解锁了一个隐藏人格</div>
+    <div class="persona-card hidden">
+      <div class="band" style="background:linear-gradient(135deg,#00BCD4,#1A237E)"></div>
+      <div class="inner">
+        <div class="hidden-banner">★ 隐藏人格解锁 ★</div>
+        <div class="persona-title">
+          <span>冰矛鸡爪流</span>
+          <span class="persona-count">
+            <span class="num">3 单</span>
+            <span class="u">本年度累计</span>
+          </span>
+        </div>
+        <div class="lines"><p>本年度你有 3 单同时点了「鸡翅」和「冰激凌」。</p><p>一口热辣鸡翅，一口冰甜筒 —— 冰与火同时进场，这波节奏你控得死死的。</p><p class=small>别人打团靠队友，你打团靠自己：先叠「冰矛」，再上「鸡爪流」连招。</p><p class=small>隐藏成就解锁：<b>冰矛鸡爪流</b> —— 峡谷里最会吃的那个召唤师。</p></div>
+        
+        <div class="formula">「麦麦人格」由你本年度实际点过的商品与下单时段推出，触发条件逐条公开。文案里的每个数字都能在下方明细中查到来源，你可以核验，也可以反驳。它只描述点餐行为，不构成对性格、健康或消费能力的评价。</div>
+        <button class="save-btn" id="save-btn">保存我的麦麦人格图片</button>
+      </div>
+    </div>
+  </section></div><div class="pv-item"><div class="pv-label">⑫ 清醒贩麦者 · 场景型（早餐）</div>
+  <section class="scene persona" data-idx="0">
+    <svg class="ga wm" viewBox="0 0 108 66" width="120px" aria-hidden="true" style="opacity:0.06;color:currentColor"><g fill="none" stroke="currentColor" stroke-width="12.5" stroke-linecap="butt"><path d="M3,60 Q28,-14 53,60"/><path d="M55,2 Q80,-72 105,2" transform="translate(0,58)"/></g></svg>
+    <div class="kicker">你的麦麦人格是</div>
+    <div class="persona-card">
+      <div class="band" style="background:linear-gradient(135deg,#FF8F00,#E65100)"></div>
+      <div class="inner">
+        
+        <div class="persona-title">
+          <span>清醒贩麦者</span>
+          <span class="persona-count">
+            <span class="num">4 单</span>
+            <span class="u">本年度累计</span>
+          </span>
+        </div>
+        <div class="lines"><p>本年度你有 4 单发生在早餐时段。</p><p>别人的早晨在闹钟里挣扎，你的早晨在薯饼香气里落定。</p><p class=small>清醒得早，麦得也早 —— 清醒贩麦者，一天从一手交钱一手交汉堡开始。</p></div>
+        
+        
+        <details class="persona-roster">
+          <summary>↺ 人格是怎么判的（1 项命中）</summary>
+          <div class="roster"><div><b>清醒贩麦者</b><em>下单时段属于：早餐(05-10)</em><span class="n">4 单</span></div></div>
+          <div class="formula" style="margin-top:10px">
+            本年度商品明细：猪柳蛋麦满分×4<br>
+            人格取"累计数量最高"的一项为「主人格」，其余为「副人格」；
+            数量并列时，名字更具体的人格优先。
+          </div>
+        </details>
+        <button class="save-btn" id="save-btn">保存我的麦麦人格图片</button>
+      </div>
+    </div>
+  </section></div><div class="pv-item"><div class="pv-label">⑬ 国宝 · 场景型（夜宵）</div>
+  <section class="scene persona" data-idx="0">
+    <svg class="ga wm" viewBox="0 0 108 66" width="120px" aria-hidden="true" style="opacity:0.06;color:currentColor"><g fill="none" stroke="currentColor" stroke-width="12.5" stroke-linecap="butt"><path d="M3,60 Q28,-14 53,60"/><path d="M55,2 Q80,-72 105,2" transform="translate(0,58)"/></g></svg>
+    <div class="kicker">你的麦麦人格是</div>
+    <div class="persona-card">
+      <div class="band" style="background:linear-gradient(135deg,#283593,#101A4D)"></div>
+      <div class="inner">
+        
+        <div class="persona-title">
+          <span>国宝</span>
+          <span class="persona-count">
+            <span class="num">4 单</span>
+            <span class="u">本年度累计</span>
+          </span>
+        </div>
+        <div class="lines"><p>本年度你有 4 单发生在夜宵时段。</p><p>城市的灯一盏盏熄掉的时候，你的胃口才刚亮起来。</p><p class=small>熬最深的夜，点最香的餐 —— 黑眼圈就是你国宝级的勋章。</p></div>
+        
+        
+        <details class="persona-roster">
+          <summary>↺ 人格是怎么判的（1 项命中）</summary>
+          <div class="roster"><div><b>国宝</b><em>下单时段属于：夜宵(21-05)</em><span class="n">4 单</span></div></div>
+          <div class="formula" style="margin-top:10px">
+            本年度商品明细：巨无霸×4<br>
+            人格取"累计数量最高"的一项为「主人格」，其余为「副人格」；
+            数量并列时，名字更具体的人格优先。
+          </div>
+        </details>
+        <button class="save-btn" id="save-btn">保存我的麦麦人格图片</button>
+      </div>
+    </div>
+  </section></div><div class="pv-item"><div class="pv-label">⑭ 甜品特派员 · 组合型</div>
+  <section class="scene persona" data-idx="0">
+    <svg class="ga wm" viewBox="0 0 108 66" width="120px" aria-hidden="true" style="opacity:0.06;color:currentColor"><g fill="none" stroke="currentColor" stroke-width="12.5" stroke-linecap="butt"><path d="M3,60 Q28,-14 53,60"/><path d="M55,2 Q80,-72 105,2" transform="translate(0,58)"/></g></svg>
+    <div class="kicker">你的麦麦人格是</div>
+    <div class="persona-card">
+      <div class="band" style="background:linear-gradient(135deg,#EC407A,#AD1457)"></div>
+      <div class="inner">
+        
+        <div class="persona-title">
+          <span>甜品特派员</span>
+          <span class="persona-count">
+            <span class="num">4 份</span>
+            <span class="u">本年度累计</span>
+          </span>
+        </div>
+        <div class="lines"><p>本年度你一共吃了 4 份甜品。</p><p>先吃甜的还是先吃咸的，你从来不纠结 —— 先吃甜的。</p></div>
+        
+        
+        <details class="persona-roster">
+          <summary>↺ 人格是怎么判的（1 项命中）</summary>
+          <div class="roster"><div><b>甜品特派员</b><em>品类属于：甜点</em><span class="n">4 份</span></div></div>
+          <div class="formula" style="margin-top:10px">
+            本年度商品明细：苹果派×4<br>
+            人格取"累计数量最高"的一项为「主人格」，其余为「副人格」；
+            数量并列时，名字更具体的人格优先。
+          </div>
+        </details>
+        <button class="save-btn" id="save-btn">保存我的麦麦人格图片</button>
+      </div>
+    </div>
+  </section></div><div class="pv-item"><div class="pv-label">⑮ 麦门永存 · 兜底（通用）</div>
+  <section class="scene persona" data-idx="0">
+    <svg class="ga wm" viewBox="0 0 108 66" width="120px" aria-hidden="true" style="opacity:0.06;color:currentColor"><g fill="none" stroke="currentColor" stroke-width="12.5" stroke-linecap="butt"><path d="M3,60 Q28,-14 53,60"/><path d="M55,2 Q80,-72 105,2" transform="translate(0,58)"/></g></svg>
+    <div class="kicker">你的麦麦人格是</div>
+    <div class="persona-card">
+      <div class="band" style="background:linear-gradient(135deg,#DA291C,#FFC72C)"></div>
+      <div class="inner">
+        
+        <div class="persona-title">
+          <span>麦门永存</span>
+          <span class="persona-count">
+            <span class="num">1 单</span>
+            <span class="u">本年度累计</span>
+          </span>
+        </div>
+        <div class="lines"><p>本年度你一共在麦当劳点了 1 单，横跨 1 种不同的商品。</p><p>没有极端偏好，也没有凑单凑出来的执念 —— 什么都点一点，这本身就是一种信仰。</p><p class=small>麦门永存。</p></div>
+        
+        <div class="formula">「麦麦人格」由你本年度实际点过的商品与下单时段推出，触发条件逐条公开。文案里的每个数字都能在下方明细中查到来源，你可以核验，也可以反驳。它只描述点餐行为，不构成对性格、健康或消费能力的评价。</div>
+        <button class="save-btn" id="save-btn">保存我的麦麦人格图片</button>
+      </div>
+    </div>
+  </section></div>
+<div class="foot-pv">本预览页由代码生成，仅用于查看各人格的人格屏样式。</div></div></body></html>

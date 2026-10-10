@@ -1,0 +1,24 @@
+# ---- 本地个人数据：绝不入库 ----
+# 真实账号快照含完整 accountId，属于个人信息
+data/real_snapshot.json
+data/user.json
+
+# ---- 本地验证产物 ----
+# 无头 Chrome 截图、临时 profile、验证脚本
+_shots/
+
+# ---- 系统与编辑器 ----
+.DS_Store
+Thumbs.db
+*.swp
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# ---- 本地生成的年报产物 ----
+# 含真实订单数据，由使用者本地生成，不入库
+annual_report.real.html
+annual_report.real.json
+annual_report.story.real.html
+annual_report.story.real.json

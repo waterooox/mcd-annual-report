@@ -1,0 +1,839 @@
+{
+  "_mock": true,
+  "_note": "演示数据，非真实账户数据。构造为：上半年主食占比高，下半年饮品/甜点上升；考试周出现夜宵集中；配送费主要产生于外送单。",
+  "owner": "演示用户",
+  "year": 2026,
+  "orders": [
+    {
+      "order_no": "MCD20260112001",
+      "ts": "2026-01-12T12:24:00",
+      "store_name": "麦当劳(中关村店)",
+      "store_city": "北京",
+      "channel": "到店取餐",
+      "items": [
+        {
+          "product_code": "P1001",
+          "name": "巨无霸",
+          "unit_price": 24.0,
+          "qty": 1,
+          "category": "主食"
+        },
+        {
+          "product_code": "P2003",
+          "name": "中薯条",
+          "unit_price": 13.0,
+          "qty": 1,
+          "category": "小食"
+        },
+        {
+          "product_code": "P3001",
+          "name": "中可口可乐",
+          "unit_price": 10.0,
+          "qty": 1,
+          "category": "饮品"
+        }
+      ],
+      "product_total": 47.0,
+      "delivery_fee": 0.0,
+      "discount": 9.0,
+      "payable": 38.0,
+      "coupon_used": "C2026A01"
+    },
+    {
+      "order_no": "MCD20260120002",
+      "ts": "2026-01-20T19:41:00",
+      "store_name": "麦当劳(国贸店)",
+      "store_city": "北京",
+      "channel": "外送",
+      "items": [
+        {
+          "product_code": "P1005",
+          "name": "麦辣鸡腿堡",
+          "unit_price": 22.0,
+          "qty": 2,
+          "category": "主食"
+        },
+        {
+          "product_code": "P2001",
+          "name": "大薯条",
+          "unit_price": 15.0,
+          "qty": 1,
+          "category": "小食"
+        }
+      ],
+      "product_total": 59.0,
+      "delivery_fee": 6.0,
+      "discount": 12.0,
+      "payable": 53.0,
+      "coupon_used": "C2026A02"
+    },
+    {
+      "order_no": "MCD20260208003",
+      "ts": "2026-02-08T12:03:00",
+      "store_name": "麦当劳(中关村店)",
+      "store_city": "北京",
+      "channel": "到店取餐",
+      "items": [
+        {
+          "product_code": "P1001",
+          "name": "巨无霸",
+          "unit_price": 24.0,
+          "qty": 1,
+          "category": "主食"
+        },
+        {
+          "product_code": "P2003",
+          "name": "中薯条",
+          "unit_price": 13.0,
+          "qty": 1,
+          "category": "小食"
+        }
+      ],
+      "product_total": 37.0,
+      "delivery_fee": 0.0,
+      "discount": 5.0,
+      "payable": 32.0,
+      "coupon_used": null
+    },
+    {
+      "order_no": "MCD20260226004",
+      "ts": "2026-02-26T22:15:00",
+      "store_name": "麦当劳(五道口店)",
+      "store_city": "北京",
+      "channel": "到店取餐",
+      "items": [
+        {
+          "product_code": "P1005",
+          "name": "麦辣鸡腿堡",
+          "unit_price": 22.0,
+          "qty": 1,
+          "category": "主食"
+        },
+        {
+          "product_code": "P4002",
+          "name": "麦旋风",
+          "unit_price": 14.0,
+          "qty": 1,
+          "category": "甜点"
+        }
+      ],
+      "product_total": 36.0,
+      "delivery_fee": 0.0,
+      "discount": 0.0,
+      "payable": 36.0,
+      "coupon_used": null
+    },
+    {
+      "order_no": "MCD20260315005",
+      "ts": "2026-03-15T12:47:00",
+      "store_name": "麦当劳(中关村店)",
+      "store_city": "北京",
+      "channel": "到店取餐",
+      "items": [
+        {
+          "product_code": "P1001",
+          "name": "巨无霸",
+          "unit_price": 24.0,
+          "qty": 1,
+          "category": "主食"
+        },
+        {
+          "product_code": "P3006",
+          "name": "麦咖啡拿铁",
+          "unit_price": 19.0,
+          "qty": 1,
+          "category": "饮品"
+        }
+      ],
+      "product_total": 43.0,
+      "delivery_fee": 0.0,
+      "discount": 8.0,
+      "payable": 35.0,
+      "coupon_used": "C2026A01"
+    },
+    {
+      "order_no": "MCD20260328006",
+      "ts": "2026-03-28T18:52:00",
+      "store_name": "麦当劳(国贸店)",
+      "store_city": "北京",
+      "channel": "外送",
+      "items": [
+        {
+          "product_code": "P1005",
+          "name": "麦辣鸡腿堡",
+          "unit_price": 22.0,
+          "qty": 2,
+          "category": "主食"
+        },
+        {
+          "product_code": "P2003",
+          "name": "中薯条",
+          "unit_price": 13.0,
+          "qty": 1,
+          "category": "小食"
+        },
+        {
+          "product_code": "P3001",
+          "name": "中可口可乐",
+          "unit_price": 10.0,
+          "qty": 2,
+          "category": "饮品"
+        }
+      ],
+      "product_total": 90.0,
+      "delivery_fee": 6.0,
+      "discount": 20.0,
+      "payable": 76.0,
+      "coupon_used": "C2026A03"
+    },
+    {
+      "order_no": "MCD20260410007",
+      "ts": "2026-04-10T12:31:00",
+      "store_name": "麦当劳(中关村店)",
+      "store_city": "北京",
+      "channel": "到店取餐",
+      "items": [
+        {
+          "product_code": "P1001",
+          "name": "巨无霸",
+          "unit_price": 24.0,
+          "qty": 1,
+          "category": "主食"
+        },
+        {
+          "product_code": "P2001",
+          "name": "大薯条",
+          "unit_price": 15.0,
+          "qty": 1,
+          "category": "小食"
+        }
+      ],
+      "product_total": 39.0,
+      "delivery_fee": 0.0,
+      "discount": 6.0,
+      "payable": 33.0,
+      "coupon_used": "C2026A02"
+    },
+    {
+      "order_no": "MCD20260425008",
+      "ts": "2026-04-25T13:02:00",
+      "store_name": "麦当劳(望京店)",
+      "store_city": "北京",
+      "channel": "到店取餐",
+      "items": [
+        {
+          "product_code": "P1005",
+          "name": "麦辣鸡腿堡",
+          "unit_price": 22.0,
+          "qty": 1,
+          "category": "主食"
+        },
+        {
+          "product_code": "P3006",
+          "name": "麦咖啡拿铁",
+          "unit_price": 19.0,
+          "qty": 1,
+          "category": "饮品"
+        }
+      ],
+      "product_total": 41.0,
+      "delivery_fee": 0.0,
+      "discount": 0.0,
+      "payable": 41.0,
+      "coupon_used": null
+    },
+    {
+      "order_no": "MCD20260512009",
+      "ts": "2026-05-12T12:18:00",
+      "store_name": "麦当劳(中关村店)",
+      "store_city": "北京",
+      "channel": "到店取餐",
+      "items": [
+        {
+          "product_code": "P1001",
+          "name": "巨无霸",
+          "unit_price": 24.0,
+          "qty": 1,
+          "category": "主食"
+        },
+        {
+          "product_code": "P2003",
+          "name": "中薯条",
+          "unit_price": 13.0,
+          "qty": 1,
+          "category": "小食"
+        },
+        {
+          "product_code": "P4001",
+          "name": "苹果派",
+          "unit_price": 9.0,
+          "qty": 1,
+          "category": "甜点"
+        }
+      ],
+      "product_total": 46.0,
+      "delivery_fee": 0.0,
+      "discount": 7.0,
+      "payable": 39.0,
+      "coupon_used": "C2026A01"
+    },
+    {
+      "order_no": "MCD20260530010",
+      "ts": "2026-05-30T21:36:00",
+      "store_name": "麦当劳(五道口店)",
+      "store_city": "北京",
+      "channel": "外送",
+      "items": [
+        {
+          "product_code": "P1005",
+          "name": "麦辣鸡腿堡",
+          "unit_price": 22.0,
+          "qty": 2,
+          "category": "主食"
+        },
+        {
+          "product_code": "P4002",
+          "name": "麦旋风",
+          "unit_price": 14.0,
+          "qty": 2,
+          "category": "甜点"
+        }
+      ],
+      "product_total": 72.0,
+      "delivery_fee": 6.0,
+      "discount": 15.0,
+      "payable": 63.0,
+      "coupon_used": "C2026A03"
+    },
+    {
+      "order_no": "MCD20260618011",
+      "ts": "2026-06-18T12:55:00",
+      "store_name": "麦当劳(中关村店)",
+      "store_city": "北京",
+      "channel": "到店取餐",
+      "items": [
+        {
+          "product_code": "P1001",
+          "name": "巨无霸",
+          "unit_price": 24.0,
+          "qty": 1,
+          "category": "主食"
+        },
+        {
+          "product_code": "P3001",
+          "name": "中可口可乐",
+          "unit_price": 10.0,
+          "qty": 1,
+          "category": "饮品"
+        }
+      ],
+      "product_total": 34.0,
+      "delivery_fee": 0.0,
+      "discount": 4.0,
+      "payable": 30.0,
+      "coupon_used": "C2026A02"
+    },
+    {
+      "order_no": "MCD20260628012",
+      "ts": "2026-06-28T22:44:00",
+      "store_name": "麦当劳(五道口店)",
+      "store_city": "北京",
+      "channel": "到店取餐",
+      "items": [
+        {
+          "product_code": "P1005",
+          "name": "麦辣鸡腿堡",
+          "unit_price": 22.0,
+          "qty": 1,
+          "category": "主食"
+        },
+        {
+          "product_code": "P3001",
+          "name": "中可口可乐",
+          "unit_price": 10.0,
+          "qty": 2,
+          "category": "饮品"
+        }
+      ],
+      "product_total": 42.0,
+      "delivery_fee": 0.0,
+      "discount": 0.0,
+      "payable": 42.0,
+      "coupon_used": null
+    },
+    {
+      "order_no": "MCD20260715013",
+      "ts": "2026-07-15T13:11:00",
+      "store_name": "麦当劳(望京店)",
+      "store_city": "北京",
+      "channel": "到店取餐",
+      "items": [
+        {
+          "product_code": "P1001",
+          "name": "巨无霸",
+          "unit_price": 24.0,
+          "qty": 1,
+          "category": "主食"
+        },
+        {
+          "product_code": "P3006",
+          "name": "麦咖啡拿铁",
+          "unit_price": 19.0,
+          "qty": 1,
+          "category": "饮品"
+        },
+        {
+          "product_code": "P4002",
+          "name": "麦旋风",
+          "unit_price": 14.0,
+          "qty": 1,
+          "category": "甜点"
+        }
+      ],
+      "product_total": 57.0,
+      "delivery_fee": 0.0,
+      "discount": 10.0,
+      "payable": 47.0,
+      "coupon_used": "C2026A03"
+    },
+    {
+      "order_no": "MCD20260729014",
+      "ts": "2026-07-29T14:26:00",
+      "store_name": "麦当劳(望京店)",
+      "store_city": "北京",
+      "channel": "到店取餐",
+      "items": [
+        {
+          "product_code": "P3006",
+          "name": "麦咖啡拿铁",
+          "unit_price": 19.0,
+          "qty": 2,
+          "category": "饮品"
+        },
+        {
+          "product_code": "P4002",
+          "name": "麦旋风",
+          "unit_price": 14.0,
+          "qty": 1,
+          "category": "甜点"
+        }
+      ],
+      "product_total": 52.0,
+      "delivery_fee": 0.0,
+      "discount": 8.0,
+      "payable": 44.0,
+      "coupon_used": "C2026A01"
+    },
+    {
+      "order_no": "MCD20260812015",
+      "ts": "2026-08-12T12:39:00",
+      "store_name": "麦当劳(中关村店)",
+      "store_city": "北京",
+      "channel": "到店取餐",
+      "items": [
+        {
+          "product_code": "P1001",
+          "name": "巨无霸",
+          "unit_price": 24.0,
+          "qty": 1,
+          "category": "主食"
+        },
+        {
+          "product_code": "P2003",
+          "name": "中薯条",
+          "unit_price": 13.0,
+          "qty": 1,
+          "category": "小食"
+        },
+        {
+          "product_code": "P3006",
+          "name": "麦咖啡拿铁",
+          "unit_price": 19.0,
+          "qty": 1,
+          "category": "饮品"
+        }
+      ],
+      "product_total": 56.0,
+      "delivery_fee": 0.0,
+      "discount": 9.0,
+      "payable": 47.0,
+      "coupon_used": "C2026A02"
+    },
+    {
+      "order_no": "MCD20260826016",
+      "ts": "2026-08-26T23:07:00",
+      "store_name": "麦当劳(五道口店)",
+      "store_city": "北京",
+      "channel": "到店取餐",
+      "items": [
+        {
+          "product_code": "P1005",
+          "name": "麦辣鸡腿堡",
+          "unit_price": 22.0,
+          "qty": 1,
+          "category": "主食"
+        },
+        {
+          "product_code": "P3006",
+          "name": "麦咖啡拿铁",
+          "unit_price": 19.0,
+          "qty": 1,
+          "category": "饮品"
+        },
+        {
+          "product_code": "P4002",
+          "name": "麦旋风",
+          "unit_price": 14.0,
+          "qty": 1,
+          "category": "甜点"
+        }
+      ],
+      "product_total": 55.0,
+      "delivery_fee": 0.0,
+      "discount": 0.0,
+      "payable": 55.0,
+      "coupon_used": null
+    },
+    {
+      "order_no": "MCD20260909017",
+      "ts": "2026-09-09T13:22:00",
+      "store_name": "麦当劳(中关村店)",
+      "store_city": "北京",
+      "channel": "到店取餐",
+      "items": [
+        {
+          "product_code": "P1001",
+          "name": "巨无霸",
+          "unit_price": 24.0,
+          "qty": 1,
+          "category": "主食"
+        },
+        {
+          "product_code": "P3006",
+          "name": "麦咖啡拿铁",
+          "unit_price": 19.0,
+          "qty": 1,
+          "category": "饮品"
+        },
+        {
+          "product_code": "P4002",
+          "name": "麦旋风",
+          "unit_price": 14.0,
+          "qty": 1,
+          "category": "甜点"
+        }
+      ],
+      "product_total": 57.0,
+      "delivery_fee": 0.0,
+      "discount": 11.0,
+      "payable": 46.0,
+      "coupon_used": "C2026A03"
+    },
+    {
+      "order_no": "MCD20260925018",
+      "ts": "2026-09-25T18:48:00",
+      "store_name": "麦当劳(国贸店)",
+      "store_city": "北京",
+      "channel": "外送",
+      "items": [
+        {
+          "product_code": "P1005",
+          "name": "麦辣鸡腿堡",
+          "unit_price": 22.0,
+          "qty": 1,
+          "category": "主食"
+        },
+        {
+          "product_code": "P3006",
+          "name": "麦咖啡拿铁",
+          "unit_price": 19.0,
+          "qty": 1,
+          "category": "饮品"
+        },
+        {
+          "product_code": "P4002",
+          "name": "麦旋风",
+          "unit_price": 14.0,
+          "qty": 1,
+          "category": "甜点"
+        }
+      ],
+      "product_total": 55.0,
+      "delivery_fee": 6.0,
+      "discount": 13.0,
+      "payable": 48.0,
+      "coupon_used": "C2026A01"
+    },
+    {
+      "order_no": "MCD20261014019",
+      "ts": "2026-10-14T12:16:00",
+      "store_name": "麦当劳(中关村店)",
+      "store_city": "北京",
+      "channel": "到店取餐",
+      "items": [
+        {
+          "product_code": "P1001",
+          "name": "巨无霸",
+          "unit_price": 24.0,
+          "qty": 1,
+          "category": "主食"
+        },
+        {
+          "product_code": "P2003",
+          "name": "中薯条",
+          "unit_price": 13.0,
+          "qty": 1,
+          "category": "小食"
+        },
+        {
+          "product_code": "P3006",
+          "name": "麦咖啡拿铁",
+          "unit_price": 19.0,
+          "qty": 1,
+          "category": "饮品"
+        },
+        {
+          "product_code": "P4002",
+          "name": "麦旋风",
+          "unit_price": 14.0,
+          "qty": 1,
+          "category": "甜点"
+        }
+      ],
+      "product_total": 70.0,
+      "delivery_fee": 0.0,
+      "discount": 14.0,
+      "payable": 56.0,
+      "coupon_used": "C2026A02"
+    },
+    {
+      "order_no": "MCD20261030020",
+      "ts": "2026-10-30T19:33:00",
+      "store_name": "麦当劳(五道口店)",
+      "store_city": "北京",
+      "channel": "外送",
+      "items": [
+        {
+          "product_code": "P1005",
+          "name": "麦辣鸡腿堡",
+          "unit_price": 22.0,
+          "qty": 2,
+          "category": "主食"
+        },
+        {
+          "product_code": "P2001",
+          "name": "大薯条",
+          "unit_price": 15.0,
+          "qty": 1,
+          "category": "小食"
+        },
+        {
+          "product_code": "P3006",
+          "name": "麦咖啡拿铁",
+          "unit_price": 19.0,
+          "qty": 2,
+          "category": "饮品"
+        }
+      ],
+      "product_total": 97.0,
+      "delivery_fee": 6.0,
+      "discount": 20.0,
+      "payable": 83.0,
+      "coupon_used": "C2026A03"
+    },
+    {
+      "order_no": "MCD20261111021",
+      "ts": "2026-11-11T12:07:00",
+      "store_name": "麦当劳(中关村店)",
+      "store_city": "北京",
+      "channel": "到店取餐",
+      "items": [
+        {
+          "product_code": "P1001",
+          "name": "巨无霸",
+          "unit_price": 24.0,
+          "qty": 1,
+          "category": "主食"
+        },
+        {
+          "product_code": "P3006",
+          "name": "麦咖啡拿铁",
+          "unit_price": 19.0,
+          "qty": 2,
+          "category": "饮品"
+        }
+      ],
+      "product_total": 62.0,
+      "delivery_fee": 0.0,
+      "discount": 10.0,
+      "payable": 52.0,
+      "coupon_used": "C2026A01"
+    },
+    {
+      "order_no": "MCD20261127022",
+      "ts": "2026-11-27T22:51:00",
+      "store_name": "麦当劳(五道口店)",
+      "store_city": "北京",
+      "channel": "到店取餐",
+      "items": [
+        {
+          "product_code": "P1005",
+          "name": "麦辣鸡腿堡",
+          "unit_price": 22.0,
+          "qty": 1,
+          "category": "主食"
+        },
+        {
+          "product_code": "P3006",
+          "name": "麦咖啡拿铁",
+          "unit_price": 19.0,
+          "qty": 1,
+          "category": "饮品"
+        },
+        {
+          "product_code": "P4002",
+          "name": "麦旋风",
+          "unit_price": 14.0,
+          "qty": 2,
+          "category": "甜点"
+        }
+      ],
+      "product_total": 69.0,
+      "delivery_fee": 0.0,
+      "discount": 12.0,
+      "payable": 57.0,
+      "coupon_used": "C2026A02"
+    },
+    {
+      "order_no": "MCD20261215023",
+      "ts": "2026-12-15T13:29:00",
+      "store_name": "麦当劳(中关村店)",
+      "store_city": "北京",
+      "channel": "到店取餐",
+      "items": [
+        {
+          "product_code": "P1001",
+          "name": "巨无霸",
+          "unit_price": 24.0,
+          "qty": 1,
+          "category": "主食"
+        },
+        {
+          "product_code": "P2003",
+          "name": "中薯条",
+          "unit_price": 13.0,
+          "qty": 1,
+          "category": "小食"
+        },
+        {
+          "product_code": "P3006",
+          "name": "麦咖啡拿铁",
+          "unit_price": 19.0,
+          "qty": 1,
+          "category": "饮品"
+        },
+        {
+          "product_code": "P4002",
+          "name": "麦旋风",
+          "unit_price": 14.0,
+          "qty": 1,
+          "category": "甜点"
+        }
+      ],
+      "product_total": 70.0,
+      "delivery_fee": 0.0,
+      "discount": 15.0,
+      "payable": 55.0,
+      "coupon_used": "C2026A03"
+    },
+    {
+      "order_no": "MCD20261224024",
+      "ts": "2026-12-24T18:15:00",
+      "store_name": "麦当劳(国贸店)",
+      "store_city": "北京",
+      "channel": "外送",
+      "items": [
+        {
+          "product_code": "P1005",
+          "name": "麦辣鸡腿堡",
+          "unit_price": 22.0,
+          "qty": 2,
+          "category": "主食"
+        },
+        {
+          "product_code": "P3006",
+          "name": "麦咖啡拿铁",
+          "unit_price": 19.0,
+          "qty": 2,
+          "category": "饮品"
+        },
+        {
+          "product_code": "P4002",
+          "name": "麦旋风",
+          "unit_price": 14.0,
+          "qty": 2,
+          "category": "甜点"
+        }
+      ],
+      "product_total": 110.0,
+      "delivery_fee": 6.0,
+      "discount": 22.0,
+      "payable": 94.0,
+      "coupon_used": "C2026A01"
+    }
+  ],
+  "coupons": [
+    {
+      "coupon_id": "C2026B01",
+      "name": "满30减8 通用券",
+      "face_value": 8.0,
+      "threshold": 30.0,
+      "expire_at": "2026-10-20",
+      "redeemable": true,
+      "kind": "满减"
+    },
+    {
+      "coupon_id": "C2026B02",
+      "name": "巨无霸免费兑换券",
+      "face_value": 24.0,
+      "threshold": 0.0,
+      "expire_at": "2026-10-25",
+      "redeemable": true,
+      "kind": "兑换"
+    },
+    {
+      "coupon_id": "C2026B03",
+      "name": "满50减15 大额券",
+      "face_value": 15.0,
+      "threshold": 50.0,
+      "expire_at": "2026-11-30",
+      "redeemable": true,
+      "kind": "满减"
+    },
+    {
+      "coupon_id": "C2026B04",
+      "name": "麦咖啡第二杯半价券",
+      "face_value": 9.5,
+      "threshold": 19.0,
+      "expire_at": "2026-12-31",
+      "redeemable": true,
+      "kind": "折扣"
+    },
+    {
+      "coupon_id": "C2026B05",
+      "name": "满40减10 门店限定券",
+      "face_value": 10.0,
+      "threshold": 40.0,
+      "expire_at": "2026-11-15",
+      "redeemable": false,
+      "kind": "满减"
+    }
+  ],
+  "points": {
+    "available": 3860,
+    "total_earned": 9120,
+    "frozen": 200,
+    "expiring_soon": 1200,
+    "expiring_at": "2026-12-31"
+  }
+}
