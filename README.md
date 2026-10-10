@@ -176,6 +176,8 @@ mcd-annual-report/
 ├── annual_report.demo.json      # 演示年报结构化数据
 ├── mock/
 │   └── sample_year.json         # 演示数据（24 笔订单 + 5 张券 + 积分）
+├── data/
+│   └── user.example.json        # 署名配置模板（复制为 user.json 后使用）
 └── scripts/
     ├── ledger_engine.py         # 核心计算引擎 + 麦麦人格 + 行为画像 + 叙事剧本
     ├── real_adapter.py          # 真实 MCP 数据适配器（含数据缺口声明）
