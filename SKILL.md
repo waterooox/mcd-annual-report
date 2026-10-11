@@ -102,7 +102,7 @@ python scripts/test_engine.py
 |---|---|
 | `annual_report.story.{real,demo}.html` | **叙事版**：全屏 9 屏，点击 / 滚轮 3D 翻页，一屏一个结论，适合自己看与传播 |
 | `annual_report.story.{real,demo}.json` | 分屏剧本（结构化数据），每屏带 `evidence`，供二次开发与审计 |
-| `persona_preview.html` | **全部 15 个人格**的卡片预览页（开发 / 评审用） |
+| `persona_preview.html` | **14 个人格**的卡片预览页（开发 / 评审用）；**故意不含隐藏人格**，页尾只留一个「未解锁」坑位，保留"自己撞见"的悬念 |
 
 `real` = 真实账号数据，`demo` = 演示数据。
 

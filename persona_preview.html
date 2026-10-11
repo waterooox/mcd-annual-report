@@ -394,35 +394,6 @@ body{
   background:rgba(255,255,255,.92);padding:clamp(22px,3.4vw,36px);
   backdrop-filter:blur(4px);
 }
-/* ---- 隐藏人格：暗色底 + 青蓝辉光，与普通证书卡形成"彩蛋"反差 ---- */
-.scene.persona.hidden{background-color:#0B1020}
-.scene.persona.hidden .kicker{color:#7FE3F0}
-.scene.persona.hidden .kicker::after{background:#7FE3F0}
-.persona-card.hidden{
-  border-color:rgba(0,188,212,.42);
-  box-shadow:0 22px 70px rgba(0,188,212,.34),0 0 0 1px rgba(127,227,240,.18);
-}
-.persona-card.hidden .inner{
-  background:linear-gradient(160deg,#101A33,#0B1020 60%);
-  backdrop-filter:none;
-}
-.persona-card.hidden .persona-title{color:#EAF6FF;border-bottom-color:rgba(127,227,240,.22)}
-.persona-card.hidden .persona-count .num{color:#7FE3F0}
-.persona-card.hidden .persona-count .u{color:rgba(234,246,255,.6)}
-.persona-card.hidden .lines p{
-  background:rgba(127,227,240,.10);color:#DCEBFA;border-left-color:#00BCD4;
-}
-.persona-card.hidden .persona-subs .lbl{color:rgba(220,235,250,.55)}
-.persona-card.hidden .persona-subs .sub{
-  background:rgba(127,227,240,.16);color:#BFE9F5;border-color:rgba(127,227,240,.34);
-}
-.persona-card.hidden .persona-roster summary{color:#9FD8E6;border-color:rgba(127,227,240,.3)}
-.persona-card.hidden .persona-roster summary:hover{background:#00BCD4;color:#06121C;border-color:#00BCD4}
-.persona-card.hidden .persona-roster .roster{background:rgba(127,227,240,.06);border-color:rgba(127,227,240,.16)}
-.persona-card.hidden .persona-roster .roster div{border-bottom-color:rgba(127,227,240,.12)}
-.persona-card.hidden .persona-roster .roster b{color:#7FE3F0}
-.persona-card.hidden .persona-roster .roster em{color:rgba(220,235,250,.5)}
-.persona-card.hidden .persona-roster .roster .n{color:#EAF6FF}
 /* 保存图片按钮 */
 .save-btn{
   display:block;margin:20px 0 0;cursor:pointer;
@@ -432,27 +403,6 @@ body{
   padding:10px 22px;transition:.18s;
 }
 .save-btn:hover{color:#fff;background:var(--brand-red);box-shadow:0 8px 22px rgba(218,41,28,.28)}
-.persona-card.hidden .save-btn{
-  color:#7FE3F0;border-color:rgba(127,227,240,.5);background:rgba(127,227,240,.06);
-}
-.persona-card.hidden .save-btn:hover{color:#06121C;background:#00BCD4;border-color:#00BCD4}
-.persona-card.hidden .formula{color:rgba(220,235,250,.5)}
-/* 解锁横幅 */
-.hidden-banner{
-  display:inline-flex;align-items:center;gap:8px;
-  font-size:12px;font-weight:800;letter-spacing:.16em;
-  color:#06121C;background:linear-gradient(90deg,#7FE3F0,#00BCD4);
-  border-radius:999px;padding:7px 16px;margin-bottom:16px;
-  box-shadow:0 6px 22px rgba(0,188,212,.5);
-  animation:pulseGlow 2.4s ease-in-out infinite;
-}
-@keyframes pulseGlow{
-  0%,100%{box-shadow:0 6px 22px rgba(0,188,212,.45)}
-  50%{box-shadow:0 6px 34px rgba(127,227,240,.85)}
-}
-@media (prefers-reduced-motion:reduce){
-  .hidden-banner{animation:none}
-}
 .persona-title{
   font-size:clamp(38px,7.8vw,74px);font-weight:800;line-height:1.04;
   letter-spacing:-.04em;color:var(--brand-red-deep);
@@ -475,7 +425,6 @@ body{
 }
 .persona-card .lines p{background:rgba(255,251,245,.9)}
 .persona-card .lines p b{color:var(--brand-red);font-weight:800}
-.persona-card.hidden .lines p b{color:#7FE3F0}
 .persona-subs{
   display:flex;flex-wrap:wrap;gap:9px;margin-top:18px;
   padding-top:16px;border-top:1px dashed rgba(218,41,28,.2);
@@ -520,15 +469,6 @@ body{
   border-radius:0 9px 9px 0;padding:7px 11px;
 }
 .sub-detail .sub-trg{margin-top:9px;font-size:11px;color:var(--muted);line-height:1.6}
-/* 隐藏人格屏内的副人格展开卡（暗色变体） */
-.persona-card.hidden .sub-detail{
-  background:rgba(16,26,51,.95);border-color:rgba(127,227,240,.3);
-}
-.persona-card.hidden .sub-detail .sub-name{color:#EAF6FF}
-.persona-card.hidden .sub-detail .sub-lines p{
-  background:rgba(127,227,240,.1);color:#DCEBFA;border-left-color:#00BCD4;
-}
-.persona-card.hidden .sub-detail .sub-trg{color:rgba(220,235,250,.55)}
 /* 人格候补清单（可回溯） */
 .persona-roster{margin-top:14px;font-size:12.5px}
 .persona-roster summary{
@@ -565,7 +505,7 @@ body{
 .foot-pv{text-align:center;font-size:11px;color:#8A7A6E;padding:40px 20px}
 </style></head><body>
 <div class="pv-wrap"><div class="pv-head"><svg class="ga" viewBox="0 0 108 66" width="72px" aria-hidden="true" style="opacity:1.0;color:#DA291C"><g fill="none" stroke="currentColor" stroke-width="12.5" stroke-linecap="butt"><path d="M3,60 Q28,-14 53,60"/><path d="M55,2 Q80,-72 105,2" transform="translate(0,58)"/></g></svg>
-<h1>麦麦人格 · 15 个全部预览</h1></div><div class="pv-item"><div class="pv-label">① 薯条钢琴家 · 单品型</div>
+<h1>麦麦人格 · 14 个全部预览</h1></div><div class="pv-item"><div class="pv-label">① 薯条钢琴家 · 单品型</div>
   <section class="scene persona" data-idx="0">
     <svg class="ga wm" viewBox="0 0 108 66" width="120px" aria-hidden="true" style="opacity:0.06;color:currentColor"><g fill="none" stroke="currentColor" stroke-width="12.5" stroke-linecap="butt"><path d="M3,60 Q28,-14 53,60"/><path d="M55,2 Q80,-72 105,2" transform="translate(0,58)"/></g></svg>
     <div class="kicker">你的麦麦人格是</div>
@@ -883,28 +823,7 @@ body{
         <button class="save-btn" id="save-btn">保存我的麦麦人格图片</button>
       </div>
     </div>
-  </section></div><div class="pv-item"><div class="pv-label">⑪ 冰矛鸡爪流 · 隐藏人格</div>
-  <section class="scene persona hidden" data-idx="0">
-    <svg class="ga wm" viewBox="0 0 108 66" width="120px" aria-hidden="true" style="opacity:0.06;color:currentColor"><g fill="none" stroke="currentColor" stroke-width="12.5" stroke-linecap="butt"><path d="M3,60 Q28,-14 53,60"/><path d="M55,2 Q80,-72 105,2" transform="translate(0,58)"/></g></svg>
-    <div class="kicker">你解锁了一个隐藏人格</div>
-    <div class="persona-card hidden">
-      <div class="band" style="background:linear-gradient(135deg,#00BCD4,#1A237E)"></div>
-      <div class="inner">
-        <div class="hidden-banner">★ 隐藏人格解锁 ★</div>
-        <div class="persona-title">
-          <span>冰矛鸡爪流</span>
-          <span class="persona-count">
-            <span class="num">3 单</span>
-            <span class="u">本年度累计</span>
-          </span>
-        </div>
-        <div class="lines"><p>本年度你有 3 单同时点了「鸡翅」和「冰激凌」。</p><p>一口热辣鸡翅，一口冰甜筒 —— 冰与火同时进场，这波节奏你控得死死的。</p><p class=small>别人打团靠队友，你打团靠自己：先叠「冰矛」，再上「鸡爪流」连招。</p><p class=small>隐藏成就解锁：<b>冰矛鸡爪流</b> —— 峡谷里最会吃的那个召唤师。</p></div>
-        
-        <div class="formula">「麦麦人格」由你本年度实际点过的商品与下单时段推出，触发条件逐条公开。文案里的每个数字都能在下方明细中查到来源，你可以核验，也可以反驳。它只描述点餐行为，不构成对性格、健康或消费能力的评价。</div>
-        <button class="save-btn" id="save-btn">保存我的麦麦人格图片</button>
-      </div>
-    </div>
-  </section></div><div class="pv-item"><div class="pv-label">⑫ 清醒贩麦者 · 场景型（早餐）</div>
+  </section></div><div class="pv-item"><div class="pv-label">⑪ 清醒贩麦者 · 场景型（早餐）</div>
   <section class="scene persona" data-idx="0">
     <svg class="ga wm" viewBox="0 0 108 66" width="120px" aria-hidden="true" style="opacity:0.06;color:currentColor"><g fill="none" stroke="currentColor" stroke-width="12.5" stroke-linecap="butt"><path d="M3,60 Q28,-14 53,60"/><path d="M55,2 Q80,-72 105,2" transform="translate(0,58)"/></g></svg>
     <div class="kicker">你的麦麦人格是</div>
@@ -934,7 +853,7 @@ body{
         <button class="save-btn" id="save-btn">保存我的麦麦人格图片</button>
       </div>
     </div>
-  </section></div><div class="pv-item"><div class="pv-label">⑬ 国宝 · 场景型（夜宵）</div>
+  </section></div><div class="pv-item"><div class="pv-label">⑫ 国宝 · 场景型（夜宵）</div>
   <section class="scene persona" data-idx="0">
     <svg class="ga wm" viewBox="0 0 108 66" width="120px" aria-hidden="true" style="opacity:0.06;color:currentColor"><g fill="none" stroke="currentColor" stroke-width="12.5" stroke-linecap="butt"><path d="M3,60 Q28,-14 53,60"/><path d="M55,2 Q80,-72 105,2" transform="translate(0,58)"/></g></svg>
     <div class="kicker">你的麦麦人格是</div>
@@ -964,7 +883,7 @@ body{
         <button class="save-btn" id="save-btn">保存我的麦麦人格图片</button>
       </div>
     </div>
-  </section></div><div class="pv-item"><div class="pv-label">⑭ 甜品特派员 · 组合型</div>
+  </section></div><div class="pv-item"><div class="pv-label">⑬ 甜品特派员 · 组合型</div>
   <section class="scene persona" data-idx="0">
     <svg class="ga wm" viewBox="0 0 108 66" width="120px" aria-hidden="true" style="opacity:0.06;color:currentColor"><g fill="none" stroke="currentColor" stroke-width="12.5" stroke-linecap="butt"><path d="M3,60 Q28,-14 53,60"/><path d="M55,2 Q80,-72 105,2" transform="translate(0,58)"/></g></svg>
     <div class="kicker">你的麦麦人格是</div>
@@ -994,7 +913,7 @@ body{
         <button class="save-btn" id="save-btn">保存我的麦麦人格图片</button>
       </div>
     </div>
-  </section></div><div class="pv-item"><div class="pv-label">⑮ 麦门永存 · 兜底（通用）</div>
+  </section></div><div class="pv-item"><div class="pv-label">⑭ 麦门永存 · 兜底（通用）</div>
   <section class="scene persona" data-idx="0">
     <svg class="ga wm" viewBox="0 0 108 66" width="120px" aria-hidden="true" style="opacity:0.06;color:currentColor"><g fill="none" stroke="currentColor" stroke-width="12.5" stroke-linecap="butt"><path d="M3,60 Q28,-14 53,60"/><path d="M55,2 Q80,-72 105,2" transform="translate(0,58)"/></g></svg>
     <div class="kicker">你的麦麦人格是</div>
@@ -1015,5 +934,6 @@ body{
         <button class="save-btn" id="save-btn">保存我的麦麦人格图片</button>
       </div>
     </div>
-  </section></div>
+  </section></div><div class="pv-item"><div class="pv-label">🥚 隐藏人格 · 未解锁</div>
+  <section class="scene persona"><div class="pv-empty">它不在上面这 14 个里 —— 满足某个特殊条件才会出现。条件是什么，留给你自己撞见。</div></section></div>
 <div class="foot-pv">本预览页由代码生成，仅用于查看各人格的人格屏样式。</div></div></body></html>
