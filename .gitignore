@@ -18,7 +18,5 @@ venv/
 
 # ---- 本地生成的年报产物 ----
 # 含真实订单数据，由使用者本地生成，不入库
-annual_report.real.html
-annual_report.real.json
 annual_report.story.real.html
 annual_report.story.real.json

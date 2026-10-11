@@ -4,24 +4,26 @@
 麦麦年度报告 · MCD Annual Report —— 核心计算引擎
 ================================================
 
-设计原则（这也是本项目与同类"人格/段位"项目的根本分野）：
+职责：
+1. 归一化领域对象（订单 / 券 / 积分），屏蔽 MCP 原始字段与 mock 数据的差异。
+2. 麦麦人格判定（`persona_portrait`）：由"本年度吃得最多的那一类东西"推出封号，
+   触发条件、门槛、实测数量全部公开，可核验、可反驳，数据撑不起就诚实回落兜底人格。
+3. 叙事剧本组装（`build_story`）：把上述结果编排成"逐屏揭晓"的分屏故事线，
+   每屏携带 `evidence`（来源订单号 / 券 ID），保证每个结论都指得回原始记录。
 
-1. 可回溯（Traceable）：年报里的每一个数字，都必须能指回具体的订单号 / 券 ID。
-   本引擎对每一项聚合指标都生成 `trace` 字段，记录它由哪些原始记录、按什么公式得出。
-2. 可手算（Hand-checkable）：所有金额计算只用加减乘除，不引入任何不可复现的权重。
-   用户拿计算器和订单流水，可以逐项复算本文报的任意一个数。
-3. 有同比（Period-over-Period）：不只是截面统计，而是按季度切片，给出轨迹与同比。
-4. 闭环（Closed-loop）：分析结果直接产出可执行动作（券到期清算、套餐替换省钱），
-   并可交给上层经由用户确认后创建订单。
+设计原则（这也是本项目与同类"贴标签"项目的根本分野）：
+1. **可回溯（Traceable）**：屏面上的每个数字都能指回具体的订单号 / 券 ID。
+2. **不编造**：数据没提供的指标（原价拆分、券面额等）如实声明缺口，绝不用实付倒推假数字。
+3. **可证伪**：人格不是黑箱打分，判定条件与实测值全部写进页面，用户可对照订单反驳。
 
-零第三方依赖，仅用标准库。所有函数为纯函数，输入 dict 输出 dict，便于单元测试。
+零第三方依赖，仅用标准库。所有函数为纯函数，输入领域对象、输出 dict，便于单元测试。
 """
 
 from __future__ import annotations
 
 from dataclasses import dataclass, field, asdict
-from datetime import date, datetime, timedelta
-from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
+from datetime import date, datetime
+from typing import Any, Dict, List, Optional, Sequence
 from collections import defaultdict
 
 
@@ -107,127 +109,6 @@ class PointsAccount:
 # 工具函数
 # ---------------------------------------------------------------------------
 
-def quarter_of(d: date) -> int:
-    return (d.month - 1) // 3 + 1
-
-
-def _pct_change(cur: float, prev: float) -> Optional[float]:
-    """同比/环比变化率。prev 为 0 时返回 None（不编造"增长 100%"这种假数）。"""
-    if prev == 0:
-        return None
-    return round((cur - prev) / prev, 4)
-
-
-def _fmt_pct(v: Optional[float]) -> str:
-    return "—" if v is None else f"{v * 100:+.1f}%"
-
-
-# ---------------------------------------------------------------------------
-# 1. 汇总：年度总账（每一格都可回溯）
-# ---------------------------------------------------------------------------
-
-def summarize_orders(orders: Sequence[Order]) -> Dict[str, Any]:
-    """年度总账。返回的每个指标都带 trace，指向构成它的订单号。"""
-    if not orders:
-        return {
-            "empty": True,
-            "order_count": 0,
-            "message": "本年度暂无订单记录。",
-            "trace": {"order_count": {"formula": "count(orders)", "sources": []}},
-        }
-
-    n = len(orders)
-    gross = round(sum(o.product_total + o.delivery_fee for o in orders), 2)
-    paid = round(sum(o.payable for o in orders), 2)
-    saved = round(sum(o.saved for o in orders), 2)
-    delivery = round(sum(o.delivery_fee for o in orders), 2)
-
-    # 客单价
-    aov = round(paid / n, 2)
-
-    # 品类结构：按 subtotal 加权
-    cat_amount: Dict[str, float] = defaultdict(float)
-    cat_count: Dict[str, int] = defaultdict(int)
-    for o in orders:
-        for it in o.items:
-            cat_amount[it.category] += it.subtotal
-            cat_count[it.category] += it.qty
-    cat_amount = {k: round(v, 2) for k, v in cat_amount.items()}
-
-    # 最常点的单品（按数量）
-    item_qty: Dict[str, int] = defaultdict(int)
-    item_spend: Dict[str, float] = defaultdict(float)
-    for o in orders:
-        for it in o.items:
-            item_qty[it.name] += it.qty
-            item_spend[it.name] += it.subtotal
-    top_items = sorted(item_qty.items(), key=lambda kv: (-kv[1], -item_spend[kv[0]]))[:5]
-
-    # 时段分布
-    hour_bucket: Dict[str, int] = defaultdict(int)
-    for o in orders:
-        hour_bucket[_time_slot(o.ts.hour)] += 1
-
-    # 渠道分布
-    channel_count: Dict[str, int] = defaultdict(int)
-    for o in orders:
-        channel_count[o.channel] += 1
-
-    # 门店分布
-    store_count: Dict[str, int] = defaultdict(int)
-    for o in orders:
-        store_count[o.store_name or o.store_city or "未知"] += 1
-
-    # 有券订单占比
-    with_coupon = [o.order_no for o in orders if o.coupon_used]
-    discount_rate = round(round(discount_sum := sum(o.discount for o in orders), 2) / gross, 4) if gross else 0.0
-
-    return {
-        "empty": False,
-        "order_count": n,
-        "gross": gross,                       # 原价 + 配送费
-        "paid": paid,                         # 实付
-        "saved": saved,                       # 省下
-        "delivery_fee": delivery,
-        "aov": aov,                           # 客单价
-        "total_discount": round(discount_sum, 2),
-        "discount_rate": discount_rate,
-        "coupon_order_count": len(with_coupon),
-        "category_amount": cat_amount,
-        "category_count": dict(cat_count),
-        "top_items": [{"name": k, "qty": v, "spend": round(item_spend[k], 2)} for k, v in top_items],
-        "hour_distribution": dict(hour_bucket),
-        "channel_distribution": dict(channel_count),
-        "store_distribution": dict(store_count),
-        # ---- 回溯表：每个结论指回原始订单 ----
-        "trace": {
-            "order_count": {"formula": "count(orders)", "sources": [o.order_no for o in orders]},
-            "gross": {
-                "formula": "原价合计 = 各单（商品原价 + 配送费）逐单相加",
-                "sources": [o.order_no for o in orders],
-            },
-            "paid": {"formula": "实付合计 = 各单实付金额逐单相加", "sources": [o.order_no for o in orders]},
-            "saved": {
-                "formula": "省下金额 = 各单（商品原价 + 配送费 − 实付）逐单相加",
-                "sources": [o.order_no for o in orders],
-            },
-            "aov": {"formula": "客单价 = 实付合计 ÷ 订单数", "sources": ["全部订单"]},
-            "discount_rate": {
-                "formula": "折扣率 = 优惠合计 ÷ 原价合计",
-                "sources": [o.order_no for o in orders],
-            },
-            "top_items": {
-                "formula": "按 Σ(qty) 降序，同数量按 Σ(subtotal) 降序",
-                "sources": [o.order_no for o in orders],
-            },
-            "coupon_order_count": {
-                "formula": "count(orders where coupon_used is not null)",
-                "sources": with_coupon,
-            },
-        },
-    }
-
-
 def _time_slot(hour: int) -> str:
     if 5 <= hour < 10:
         return "早餐(05-10)"
@@ -241,426 +122,7 @@ def _time_slot(hour: int) -> str:
 
 
 # ---------------------------------------------------------------------------
-# 2. 季度切片 + 同比轨迹
-# ---------------------------------------------------------------------------
-
-def quarterly_breakdown(orders: Sequence[Order], year: int) -> List[Dict[str, Any]]:
-    """按季度切片，给出实付、订单数、客单价、折扣率的轨迹。"""
-    buckets: Dict[int, List[Order]] = defaultdict(list)
-    for o in orders:
-        if o.ts.year == year:
-            buckets[quarter_of(o.ts.date())].append(o)
-
-    result: List[Dict[str, Any]] = []
-    for q in (1, 2, 3, 4):
-        os_ = buckets.get(q, [])
-        paid = round(sum(o.payable for o in os_), 2)
-        gross = round(sum(o.product_total + o.delivery_fee for o in os_), 2)
-        disc = round(sum(o.discount for o in os_), 2)
-        n = len(os_)
-        result.append({
-            "quarter": f"Q{q}",
-            "order_count": n,
-            "paid": paid,
-            "aov": round(paid / n, 2) if n else 0.0,
-            "discount_rate": round(disc / gross, 4) if gross else 0.0,
-            "trace": {"sources": [o.order_no for o in os_]},
-        })
-    return result
-
-
-def month_slices(orders: Sequence[Order], year: int) -> List[Dict[str, Any]]:
-    """按月切片，用于"轨迹"章节。"""
-    buckets: Dict[int, List[Order]] = defaultdict(list)
-    for o in orders:
-        if o.ts.year == year:
-            buckets[o.ts.month].append(o)
-    out = []
-    for m in range(1, 13):
-        os_ = buckets.get(m, [])
-        out.append({
-            "month": m,
-            "order_count": len(os_),
-            "paid": round(sum(o.payable for o in os_), 2),
-            "sources": [o.order_no for o in os_],
-        })
-    return out
-
-
-def flavor_drift(orders: Sequence[Order], year: int) -> Dict[str, Any]:
-    """
-    口味漂移：对比"上半年"与"下半年"的品类占比变化。
-    这是同类截面统计项目普遍缺失的纵向视角。
-    """
-    h1 = [o for o in orders if o.ts.year == year and o.ts.month <= 6]
-    h2 = [o for o in orders if o.ts.year == year and o.ts.month >= 7]
-
-    def cat_share(os_: Sequence[Order]) -> Dict[str, float]:
-        amt: Dict[str, float] = defaultdict(float)
-        for o in os_:
-            for it in o.items:
-                amt[it.category] += it.subtotal
-        total = sum(amt.values())
-        if total <= 0:
-            return {}
-        return {k: round(v / total, 4) for k, v in amt.items()}
-
-    s1, s2 = cat_share(h1), cat_share(h2)
-    cats = sorted(set(s1) | set(s2))
-    drift = []
-    for c in cats:
-        a, b = s1.get(c, 0.0), s2.get(c, 0.0)
-        drift.append({
-            "category": c,
-            "h1_share": a,
-            "h2_share": b,
-            "delta": round(b - a, 4),
-        })
-    drift.sort(key=lambda d: -abs(d["delta"]))
-
-    return {
-        "h1_order_count": len(h1),
-        "h2_order_count": len(h2),
-        "drift": drift,
-        "narrative": _drift_narrative(drift),
-        "trace": {
-            "formula": "品类占比 = 该品类金额 ÷ 全部金额，分别在上半年/下半年计算后相减",
-            "sources": {"h1": [o.order_no for o in h1], "h2": [o.order_no for o in h2]},
-        },
-    }
-
-
-def _drift_narrative(drift: List[Dict[str, Any]]) -> str:
-    if not drift:
-        return "数据不足，无法判断口味漂移。"
-    top = drift[0]
-    if abs(top["delta"]) < 0.03:
-        return "上半年与下半年的口味结构基本稳定，没有明显漂移。"
-    name, a, b = top["category"], top["h1_share"], top["h2_share"]
-    if top["delta"] > 0:
-        return f"下半年你的「{name}」占比从 {a*100:.1f}% 升到 {b*100:.1f}%，吃得比上半年更偏向这一类。"
-    return f"下半年你的「{name}」占比从 {a*100:.1f}% 降到 {b*100:.1f}%，这一类吃得比上半年少了。"
-
-
-# ---------------------------------------------------------------------------
-# 3. 券资产清算（闭环的入口）
-# ---------------------------------------------------------------------------
-
-def coupon_actions(
-    coupons: Sequence[Coupon],
-    orders: Sequence[Order],
-    today: Optional[date] = None,
-) -> Dict[str, Any]:
-    """
-    券资产清算：算出每张券的"门槛效率"，并结合实际消费能力判断该不该用。
-    输出直接可执行的动作清单（这正是不碰下单的项目所缺少的）。
-    """
-    today = today or date.today()
-
-    # 从历史订单推算"单次消费中位数"，作为能否够到门槛的能力基准。
-    # 注意：偶数样本必须取中间两个数的算术平均，否则会偏向上中位数。
-    typical = median_payable(orders)
-
-    rows: List[Dict[str, Any]] = []
-    for c in coupons:
-        days_left = (c.expire_at - today).days if c.expire_at else None
-        # 门槛效率：每 1 元门槛换来多少面额。无门槛视为最高效率。
-        efficiency = round(c.face_value / c.threshold, 4) if c.threshold > 0 else 99.0
-
-        # 可达性：典型消费能否够到门槛
-        reachable = c.threshold <= typical if c.threshold > 0 else True
-
-        # 紧迫度
-        if days_left is None:
-            urgency = 0.5
-        elif days_left < 0:
-            urgency = -1.0          # 已过期
-        elif days_left <= 7:
-            urgency = 1.0
-        elif days_left <= 30:
-            urgency = 0.6
-        else:
-            urgency = 0.2
-
-        # 综合建议分（仍然可手算：效率 × 紧迫 × 可达性系数）
-        score = round(efficiency_clip(efficiency) * urgency * (1.0 if reachable else 0.3), 4)
-
-        rows.append({
-            "coupon_id": c.coupon_id,
-            "name": c.name,
-            "face_value": c.face_value,
-            "threshold": c.threshold,
-            "expire_at": c.expire_at.isoformat() if c.expire_at else None,
-            "days_left": days_left,
-            "efficiency": efficiency,
-            "reachable_by_typical_order": reachable,
-            "typical_order_payable": typical,
-            "redeemable_in_store": c.redeemable,
-            "urgency": urgency,
-            "priority_score": score,
-            "action": _coupon_action(c, days_left, reachable),
-        })
-
-    rows.sort(key=lambda r: -r["priority_score"])
-    expiring = [r for r in rows if r["days_left"] is not None and 0 <= r["days_left"] <= 7]
-    expired = [r for r in rows if r["days_left"] is not None and r["days_left"] < 0]
-    blocked = [r for r in rows if not r["redeemable_in_store"]]
-
-    return {
-        "total_face_value": round(sum(c.face_value for c in coupons), 2),
-        "coupon_count": len(coupons),
-        "expiring_within_7d": expiring,
-        "expired_count": len(expired),
-        "store_unavailable_count": len(blocked),
-        "priority_list": rows,
-        "trace": {
-            "formula": "门槛效率 = 面额 / 门槛（无门槛记为 99）；典型消费 = 历史订单实付的中位数；"
-                       "建议分 = min(效率,5) × 紧迫度 × 可达性系数",
-            "typical_order_payable": typical,
-            "median_formula": "奇数样本取 pays[n//2]；偶数样本取 (pays[n//2-1]+pays[n//2])/2",
-        },
-    }
-
-
-def efficiency_clip(e: float) -> float:
-    """把效率截断到 [0,5]，避免无门槛券（99）把分数拉爆，保证各券可比。"""
-    return max(0.0, min(e, 5.0))
-
-
-def median_payable(orders: Sequence[Order]) -> float:
-    """
-    实付中位数（标准定义）：
-    - 奇数个样本：取正中间那个
-    - 偶数个样本：取中间两个的算术平均
-    这是"典型消费能力"的基准，用于判断券门槛是否够得着。
-    """
-    pays = sorted(o.payable for o in orders)
-    n = len(pays)
-    if n == 0:
-        return 0.0
-    if n % 2 == 1:
-        return round(pays[n // 2], 2)
-    return round((pays[n // 2 - 1] + pays[n // 2]) / 2, 2)
-
-
-def _coupon_action(c: Coupon, days_left: Optional[int], reachable: bool) -> str:
-    if days_left is not None and days_left < 0:
-        return "已过期，可忽略"
-    if not c.redeemable:
-        return "当前门店不可用，需换店或换券"
-    if days_left is not None and days_left <= 7:
-        if reachable:
-            return f"⚠️ {days_left}天内到期，建议尽快使用"
-        return f"⚠️ {days_left}天内到期，但门槛¥{c.threshold}高于你的典型消费，需凑单或放弃"
-    if not reachable:
-        return f"门槛¥{c.threshold}高于你的典型消费，优先级低"
-    return "常规券，按需使用"
-
-
-# ---------------------------------------------------------------------------
-# 4. 省钱动作建议（闭环的输出）
-# ---------------------------------------------------------------------------
-
-def saving_playbook(
-    orders: Sequence[Order],
-    coupons: Sequence[Coupon],
-    today: Optional[date] = None,
-) -> Dict[str, Any]:
-    """
-    产出"明年的钱可以怎么花"的行动清单。
-    每条动作都附带：依据（回溯到订单/券）+ 预估可省金额 + 可验证的算法。
-    """
-    today = today or date.today()
-    actions: List[Dict[str, Any]] = []
-
-    coupon_report = coupon_actions(coupons, orders, today)
-
-    # 动作 1：临期券清算
-    for r in coupon_report["expiring_within_7d"]:
-        if r["reachable_by_typical_order"] and r["redeemable_in_store"]:
-            actions.append({
-                "type": "use_coupon",
-                "title": f"用掉「{r['name']}」",
-                "reason": f"{r['days_left']}天后到期，你的典型消费¥{r['typical_order_payable']}已够门槛¥{r['threshold']}",
-                "est_saving": r["face_value"],
-                "evidence": {"coupon_id": r["coupon_id"], "days_left": r["days_left"]},
-                "needs_confirmation": True,
-            })
-
-    # 动作 2：配送费优化 —— 若外送订单占比高且配送费可观
-    delivery_total = sum(o.delivery_fee for o in orders)
-    delivery_orders = [o for o in orders if o.delivery_fee > 0]
-    if delivery_total > 0 and len(delivery_orders) >= 3:
-        per = round(delivery_total / len(delivery_orders), 2)
-        actions.append({
-            "type": "reduce_delivery",
-            "title": "改用到店取餐替代部分外送",
-            "reason": f"全年配送费共¥{round(delivery_total,2)}，{len(delivery_orders)}单平均每单¥{per}",
-            "est_saving": round(delivery_total * 0.5, 2),
-            "assumption": "假设 50% 的外送单可改为到店自取（仅为估算情景，非承诺）",
-            "evidence": {"order_nos": [o.order_no for o in delivery_orders]},
-            "needs_confirmation": False,
-        })
-
-    # 动作 3：时段集中度 —— 若集中在高价时段，提示错峰
-    hour_dist = defaultdict(int)
-    for o in orders:
-        hour_dist[_time_slot(o.ts.hour)] += 1
-    if hour_dist:
-        peak_slot, peak_n = max(hour_dist.items(), key=lambda kv: kv[1])
-        if peak_slot.startswith(("午餐", "晚餐")) and peak_n >= 5:
-            actions.append({
-                "type": "shift_timing",
-                "title": "错峰下单",
-                "reason": f"你的 {peak_n} 单集中在{peak_slot}，该时段通常是高峰溢价时段",
-                "est_saving": None,
-                "assumption": "错峰能否省钱取决于当期活动，需实时核价确认",
-                "evidence": {"slot": peak_slot, "count": peak_n},
-                "needs_confirmation": False,
-            })
-
-    # 动作 4：积分即将过期
-    actions.append({
-        "type": "points_check",
-        "title": "核对即将过期的积分",
-        "reason": "积分会贬值，需在使用前核算兑换 ROI",
-        "est_saving": None,
-        "evidence": {"note": "调用 query-my-account 获取 expiring_soon"},
-        "needs_confirmation": False,
-    })
-
-    total_est = round(sum(a["est_saving"] for a in actions if a.get("est_saving")), 2)
-
-    return {
-        "actions": actions,
-        "estimated_total_saving": total_est,
-        "disclaimer": "以上为基于历史数据的情景估算，实际优惠以麦当劳官方实时核价为准。",
-        "trace": {
-            "formula": "可省金额 = 各可量化动作的 est_saving 之和",
-            "coupon_sources": [r["coupon_id"] for r in coupon_report["expiring_within_7d"]],
-        },
-    }
-
-
-# ---------------------------------------------------------------------------
-# 5.5 行为风格画像（可回溯、可反驳）
-# ---------------------------------------------------------------------------
-
-@dataclass
-class Trait:
-    """一个行为特征。全部由可验证的判定规则得出，不含主观性格判断。"""
-    key: str                        # 机器可读标识
-    label: str                      # 展示名，如"套餐依赖型"
-    value: float                    # 实测特征值
-    threshold: float                # 判定阈值
-    comparator: str                 # ">=" 或 "<="
-    unit: str = "%"                 # 单位
-    rule: str = ""                  # 人类可读的判定规则
-    evidence: List[str] = field(default_factory=list)   # 支撑它的订单号
-
-
-def _ratio(a: float, b: float) -> float:
-    return round(a / b, 4) if b else 0.0
-
-
-def behavior_profile(orders: Sequence[Order]) -> Dict[str, Any]:
-    """
-    行为风格画像。
-
-    设计原则（与同类"人格测试"项目的根本区别）：
-    1. 只描述**可观测的行为习惯**，不下"性格"结论——
-       我们不说"你是谨慎的人"，只说"你的套餐占比 100%"。
-    2. 每个特征都带**判定规则 + 阈值 + 支撑订单号**，
-       用户能看懂为什么这么判，也能拿自己的订单反驳。
-    3. 阈值写死在 rule 里，公开透明，不是黑箱权重。
-
-    四个维度：
-    - 套餐依赖度：依赖套餐 vs 偏好自行组合
-    - 时段集中度：集中在某一时段 vs 全时段分散
-    - 口味多样性：持续探索新品 vs 反复点同样的
-    - 客单价位：偏高 vs 经济（相对于自身订单集）
-    """
-    if not orders:
-        return {
-            "empty": True,
-            "traits": [],
-            "summary": "数据不足，无法生成行为画像。",
-            "disclaimer": "行为画像需要至少 1 笔订单。",
-        }
-
-    n = len(orders)
-
-    # 维度 1：套餐依赖度 —— 多子项订单（展平后的套餐）占比
-    combo_orders = [o for o in orders if len(o.items) >= 2]
-    combo_ratio = _ratio(len(combo_orders), n)
-
-    # 维度 2：时段集中度
-    slot_count: Dict[str, int] = defaultdict(int)
-    for o in orders:
-        slot_count[_time_slot(o.ts.hour)] += 1
-    top_slot, top_slot_n = max(slot_count.items(), key=lambda kv: kv[1])
-    slot_concentration = _ratio(top_slot_n, n)
-
-    # 维度 3：口味多样性 —— 不同商品种类数 ÷ 订单数
-    distinct_items: List[str] = sorted({it.name for o in orders for it in o.items})
-    variety_ratio = _ratio(len(distinct_items), n)
-
-    # 维度 4：客单价位
-    mid = median_payable(orders)
-    aov = round(sum(o.payable for o in orders) / n, 2)
-
-    traits: List[Trait] = []
-
-    traits.append(Trait(
-        key="combo_dependence",
-        label="套餐依赖型" if combo_ratio >= 0.7 else "自由组合型",
-        value=combo_ratio, threshold=0.7, comparator=">=",
-        rule="套餐依赖型：多子项订单占比 ≥ 70%；否则为自由组合型",
-        evidence=[o.order_no for o in combo_orders] if combo_ratio >= 0.7
-                 else [o.order_no for o in orders if len(o.items) < 2],
-    ))
-
-    traits.append(Trait(
-        key="time_concentration",
-        label=f"{top_slot}集中型" if slot_concentration >= 0.5 else "全时段分散型",
-        value=slot_concentration, threshold=0.5, comparator=">=",
-        rule="时段集中型：最高频时段的订单占比 ≥ 50%；否则为全时段分散型",
-        evidence=[o.order_no for o in orders if _time_slot(o.ts.hour) == top_slot],
-    ))
-
-    traits.append(Trait(
-        key="variety",
-        label="探索尝新型" if variety_ratio >= 1.5 else "口味稳定型",
-        value=variety_ratio, threshold=1.5, comparator=">=", unit="种/单",
-        rule="探索尝新型：不同商品种类数 ÷ 订单数 ≥ 1.5；否则为口味稳定型",
-        evidence=distinct_items,
-    ))
-
-    traits.append(Trait(
-        key="price_level",
-        label="偏高客单型" if aov >= 30 else "经济实付型",
-        value=aov, threshold=30.0, comparator=">=", unit="元",
-        rule="偏高客单型：客单价 ≥ ¥30；否则为经济实付型",
-        evidence=[o.order_no for o in orders if o.payable > mid],
-    ))
-
-    summary = "你的行为特征：" + " × ".join(t.label for t in traits) + "。"
-
-    return {
-        "empty": False,
-        "traits": [asdict(t) for t in traits],
-        "summary": summary,
-        "basis": {"order_count": n, "median_payable": mid, "aov": aov},
-        "disclaimer": (
-            "本画像只描述可观测的点餐行为，不构成对个人性格、健康或消费能力的评价。"
-            "每个特征均由公开的判定规则与明确阈值得出，你可对照自己的订单核验或反驳。"
-        ),
-        "note": "与同类「人格测试」的差别：不做黑箱打分，只做可复现的规则判定。",
-    }
-
-
-# ---------------------------------------------------------------------------
-# 5.6 麦麦人格：由"吃得最多的东西"决定的具体人格
+# 1. 麦麦人格：由"吃得最多的东西"决定的具体人格
 # ---------------------------------------------------------------------------
 
 # 人格池。每个人格 = 一个触发条件 + 一套由真实数据填充的文案模板。
@@ -1222,98 +684,7 @@ def _persona_trigger_text(p: Dict[str, Any]) -> str:
 
 
 # ---------------------------------------------------------------------------
-# 6. 年度档案组装
-# ---------------------------------------------------------------------------
-
-def build_annual_report(
-    orders: Sequence[Order],
-    coupons: Sequence[Coupon] = (),
-    points: Optional[PointsAccount] = None,
-    year: Optional[int] = None,
-    owner: str = "麦门用户",
-    today: Optional[date] = None,
-) -> Dict[str, Any]:
-    """组装完整的年度报告数据结构（供 HTML 渲染消费）。"""
-    today = today or date.today()
-    if year is None:
-        year = max((o.ts.year for o in orders), default=today.year)
-
-    summary = summarize_orders(orders)
-    report = {
-        "meta": {
-            "title": f"{year} 麦麦年度报告",
-            "owner": owner,
-            "year": year,
-            "generated_at": datetime.now().isoformat(timespec="seconds"),
-            "data_scope": "仅统计本账户在麦当劳的真实消费记录",
-        },
-        "summary": summary,
-        "behavior": behavior_profile(orders),
-        "persona": persona_portrait(orders, owner=owner),
-        "quarterly": quarterly_breakdown(orders, year),
-        "monthly": month_slices(orders, year),
-        "flavor_drift": flavor_drift(orders, year),
-        "coupons": coupon_actions(coupons, orders, today) if coupons else None,
-        "playbook": saving_playbook(orders, coupons, today) if orders else None,
-        "points": _points_to_dict(points) if points else None,
-    }
-    return report
-
-
-def _points_to_dict(p: PointsAccount) -> Dict[str, Any]:
-    d = asdict(p)
-    if d.get("expiring_at") is not None:
-        d["expiring_at"] = p.expiring_at.isoformat()
-    return d
-
-
-# ---------------------------------------------------------------------------
-# 6. 自检：手算校验
-# ---------------------------------------------------------------------------
-
-def self_check(orders: Sequence[Order]) -> Dict[str, Any]:
-    """
-    对年报的关键数字做一次独立复算，确保"可手算"这一承诺成立。
-    任何一项不符，都会在这里暴露。
-    """
-    checks: List[Dict[str, Any]] = []
-
-    # 复算 1：实付 = Σ payable
-    manual_paid = round(sum(o.payable for o in orders), 2)
-    engine_paid = summarize_orders(orders).get("paid", 0.0) if orders else 0.0
-    checks.append({
-        "name": "实付总额",
-        "manual": manual_paid,
-        "engine": engine_paid,
-        "pass": abs(manual_paid - engine_paid) < 0.01,
-    })
-
-    # 复算 2：省下 = Σ(原价 + 配送费 - 实付)
-    manual_saved = round(sum(o.product_total + o.delivery_fee - o.payable for o in orders), 2)
-    engine_saved = round(sum(o.saved for o in orders), 2)
-    checks.append({
-        "name": "省下总额",
-        "manual": manual_saved,
-        "engine": engine_saved,
-        "pass": abs(manual_saved - engine_saved) < 0.01,
-    })
-
-    # 复算 3：客单价
-    if orders:
-        manual_aov = round(manual_paid / len(orders), 2)
-        checks.append({
-            "name": "客单价",
-            "manual": manual_aov,
-            "engine": summarize_orders(orders)["aov"],
-            "pass": abs(manual_aov - summarize_orders(orders)["aov"]) < 0.01,
-        })
-
-    all_pass = all(c["pass"] for c in checks)
-    return {"all_pass": all_pass, "checks": checks}
-
-
-# ---------------------------------------------------------------------------
-# 7. 叙事剧本：把年报数据编排成"逐屏揭晓"的故事线
+# 2. 叙事剧本：把年报数据编排成"逐屏揭晓"的故事线
 # ---------------------------------------------------------------------------
 
 def build_story(
@@ -1331,8 +702,9 @@ def build_story(
     设计原则：
     - 文案**全部由真实数据生成**，不做无中生有的抒情。
       没有订单就不编"你与麦当劳的 N 次相遇"。
-    - 只说结论、不带公式与依据面板 —— 叙事版保持"年度回顾"的沉浸感。
-      逐条核对数字的需求由报告版承担（每屏可携带 `evidence` 供其回溯）。
+    - 屏面只说结论，不挂公式面板 —— 保持"年度回顾"的沉浸感。
+      可回溯性改由数据层承载：每屏携带 `evidence`（来源订单号 / 券 ID），
+      用户要逐条核对时直接读 `annual_report.story.*.json` 即可。
     - 涉及主观感受的句式一律避免；只做事实陈述 + 克制的解读。
     """
     today = today or date.today()
@@ -1513,7 +885,7 @@ def _money_str(v: float) -> str:
 
 
 if __name__ == "__main__":
-    # 极简 demo：直接用 mock 数据跑一遍
+    # 极简 demo：直接用 mock 数据跑一遍，打印分屏剧本
     import json, os, sys
     sys.path.insert(0, os.path.dirname(__file__))
     from mock_loader import load_mock_orders, load_mock_coupons, load_mock_points
@@ -1521,7 +893,9 @@ if __name__ == "__main__":
     orders = load_mock_orders()
     coupons = load_mock_coupons()
     points = load_mock_points()
-    rep = build_annual_report(orders, coupons, points, year=2026, owner="演示用户")
-    print(json.dumps(rep["summary"], ensure_ascii=False, indent=2)[:1200])
-    print("\n--- 自检 ---")
-    print(json.dumps(self_check(orders), ensure_ascii=False, indent=2))
+    story = build_story(orders, coupons, points, year=2026, owner="演示用户")
+    for sc in story["scenes"]:
+        print(f"[{sc['kind']:>15}] {sc.get('title','')} → {sc.get('big','')}")
+    print("\n--- 麦麦人格 ---")
+    print(json.dumps(persona_portrait(orders, owner="演示用户")["main"],
+                     ensure_ascii=False, indent=2))

@@ -7,12 +7,12 @@
 不依赖任何第三方测试框架，直接 python test_engine.py 即可运行。
 
 覆盖：
-- 金额口径的正确性（实付/省下/客单价）
-- 回溯表必须指向真实订单号
-- 季度切片求和必须等于全年总数
-- 口味漂移的方向性
-- 券清算的门槛可达性判断
-- 空账户必须诚实产出"空"而不是假数据
+- 叙事剧本的结构完整性（屏序、依据指向真实订单、小样本提示）
+- 麦麦人格：门槛兜底、同源去重、sub_only 规则、隐藏人格、薯条重奏换算
+- 产物不得泄露开发侧词汇（接口字段名等）
+- 叙事版不得出现「算法 / 依据」入口（保持沉浸感）
+- 分享卡与网页人格卡同源、且不含界面控件
+- 金拱门配色（开场屏 / 收尾屏 / 署名层统一为品牌黄）
 """
 
 from __future__ import annotations
@@ -21,15 +21,9 @@ import re
 import sys
 from datetime import date, datetime
 
-from ledger_engine import (_DEFAULT_PERSONA, _PERSONAS, _fries_music, Coupon,
-                           Order, OrderItem, PointsAccount, behavior_profile,
-                           build_annual_report, build_story, coupon_actions,
-                           flavor_drift, median_payable, persona_portrait,
-                           quarterly_breakdown, saving_playbook, self_check,
-                           summarize_orders)
+from ledger_engine import (_DEFAULT_PERSONA, _PERSONAS, _fries_music,
+                           Order, OrderItem, build_story, persona_portrait)
 from mock_loader import load_mock_coupons, load_mock_orders, load_mock_points
-from real_adapter import load_owner_name
-from render_report import render_html
 from render_story import check_arch_consistency, render_story_html
 
 # 面向用户的产物里**绝不允许**出现的开发侧词汇（接口字段名 / 内部术语）
@@ -66,187 +60,7 @@ def main() -> int:
     TODAY = date(2026, 10, 9)
 
     # ------------------------------------------------------------------
-    section("1. 金额口径")
-    s = summarize_orders(orders)
-    manual_paid = round(sum(o.payable for o in orders), 2)
-    check("实付总额 = Σpayable", abs(s["paid"] - manual_paid) < 0.01,
-          f'{s["paid"]} vs {manual_paid}')
-
-    manual_saved = round(sum(o.product_total + o.delivery_fee - o.payable for o in orders), 2)
-    check("省下总额 = Σ(原价+配送-实付)", abs(s["saved"] - manual_saved) < 0.01,
-          f'{s["saved"]} vs {manual_saved}')
-
-    check("客单价 = 实付/单数",
-          abs(s["aov"] - round(manual_paid / len(orders), 2)) < 0.01)
-
-    check("订单数正确", s["order_count"] == len(orders))
-
-    # ------------------------------------------------------------------
-    section("2. 回溯表完整性")
-    valid_nos = {o.order_no for o in orders}
-    for key in ("order_count", "gross", "paid", "saved"):
-        srcs = set(s["trace"][key]["sources"])
-        check(f"trace[{key}] 全部指向真实订单", srcs <= valid_nos,
-              f"越界: {srcs - valid_nos}")
-        check(f"trace[{key}] 覆盖全部订单", srcs == valid_nos)
-
-    check("trace 每项都带 formula", all("formula" in v for v in s["trace"].values()))
-
-    # ------------------------------------------------------------------
-    section("3. 季度切片守恒")
-    qs = quarterly_breakdown(orders, 2026)
-    q_paid = round(sum(q["paid"] for q in qs), 2)
-    y_paid = round(sum(o.payable for o in orders if o.ts.year == 2026), 2)
-    check("四季度实付之和 = 全年实付", abs(q_paid - y_paid) < 0.01, f"{q_paid} vs {y_paid}")
-
-    q_n = sum(q["order_count"] for q in qs)
-    check("四季度订单数之和 = 全年订单数",
-          q_n == len([o for o in orders if o.ts.year == 2026]), f"{q_n}")
-
-    # ------------------------------------------------------------------
-    section("4. 口味漂移")
-    d = flavor_drift(orders, 2026)
-    check("漂移结果按月切分完整",
-          d["h1_order_count"] + d["h2_order_count"] == len(orders),
-          f'{d["h1_order_count"]}+{d["h2_order_count"]}')
-    check("H1 全部在上半年",
-          all(o.ts.month <= 6 for o in orders if o.ts.year == 2026 and o.order_no in d["trace"]["sources"]["h1"]))
-    check("H2 全部在下半年",
-          all(o.ts.month >= 7 for o in orders if o.ts.year == 2026 and o.order_no in d["trace"]["sources"]["h2"]))
-    check("漂移按变化幅度降序",
-          all(abs(d["drift"][i]["delta"]) >= abs(d["drift"][i + 1]["delta"])
-              for i in range(len(d["drift"]) - 1)))
-    check("有叙事文本", len(d["narrative"]) > 0)
-
-    # ------------------------------------------------------------------
-    section("5. 券资产清算")
-
-    # 先单独验证中位数的奇偶两种情形
-    def _mk(pays):
-        return [Order(order_no=f"T{i}", ts=datetime(2026, 3, 1, 12, 0),
-                      payable=p, product_total=p, delivery_fee=0.0, discount=0.0)
-                for i, p in enumerate(pays)]
-
-    check("奇数样本中位数取正中", median_payable(_mk([10, 30, 20])) == 20.0,
-          str(median_payable(_mk([10, 30, 20]))))
-    check("偶数样本中位数取中间两数均值", median_payable(_mk([10, 20, 30, 40])) == 25.0,
-          str(median_payable(_mk([10, 20, 30, 40]))))
-    check("空样本中位数为0", median_payable([]) == 0.0)
-
-    ca = coupon_actions(coupons, orders, TODAY)
-    check("券数量正确", ca["coupon_count"] == len(coupons))
-    check("面值合计正确",
-          abs(ca["total_face_value"] - round(sum(c.face_value for c in coupons), 2)) < 0.01)
-
-    # C2026B02 无门槛，效率应记为 99
-    b02 = next(r for r in ca["priority_list"] if r["coupon_id"] == "C2026B02")
-    check("无门槛券效率记为 99", b02["efficiency"] == 99.0)
-
-    # C2026B05 redeemable=False，应被标记门店不可用
-    b05 = next(r for r in ca["priority_list"] if r["coupon_id"] == "C2026B05")
-    check("门店不可用券被正确标记", b05["redeemable_in_store"] is False)
-    check("门店不可用券建议文案正确", "不可用" in b05["action"])
-
-    # C2026B03 门槛50。中位数 = (47+47)/2 = 47.0 < 50，故不可达 —— 这是刻意的边界用例，
-    # 用来验证"门槛高于典型消费"能被正确识别，而不是被悄悄放过。
-    b03 = next(r for r in ca["priority_list"] if r["coupon_id"] == "C2026B03")
-    check("典型消费=47.0（偶数样本取均值）",
-          b03["typical_order_payable"] == 47.0, f'{b03["typical_order_payable"]}')
-    check("门槛50高于典型消费 → 判为不可达",
-          b03["reachable_by_typical_order"] is False)
-    check("不可达券建议文案提示门槛过高",
-          "门槛" in b03["action"] and "高" in b03["action"], b03["action"])
-
-    # 临期券应被识别（B01 到期 10-20，距今 11 天；B02 到期 10-25，距今 16 天）→ 无 7 天内
-    check("7天内到期券数量计算正确", isinstance(ca["expiring_within_7d"], list))
-
-    # 已过期检测
-    old = Coupon("X1", "已过期券", 10.0, 20.0, date(2026, 9, 1))
-    ca2 = coupon_actions([old], orders, TODAY)
-    check("过期券被识别", ca2["expired_count"] == 1)
-    check("过期券动作文案正确", "过期" in ca2["priority_list"][0]["action"])
-
-    # ------------------------------------------------------------------
-    section("6. 省钱行动清单")
-    pb = saving_playbook(orders, coupons, TODAY)
-    check("产出至少一条建议", len(pb["actions"]) >= 1)
-    check("有可量化估算值", pb["estimated_total_saving"] >= 0)
-    check("含免责声明", "以麦当劳官方" in pb["disclaimer"])
-    delivery_actions = [a for a in pb["actions"] if a["type"] == "reduce_delivery"]
-    check("外送费优化被触发", len(delivery_actions) == 1)
-    if delivery_actions:
-        check("外送优化带估算前提说明", "assumption" in delivery_actions[0])
-
-    # ------------------------------------------------------------------
-    section("7. 空账户诚实性")
-    empty = summarize_orders([])
-    check("空账户标记 empty", empty["empty"] is True)
-    check("空账户不编造数字", empty["order_count"] == 0)
-    rep_empty = build_annual_report([], [], None, year=2026, owner="新用户")
-    check("空账户年报可正常组装", rep_empty["summary"]["empty"] is True)
-    empty_pb = saving_playbook([], [], TODAY)
-    check("空账户不给虚假省钱承诺", empty_pb["estimated_total_saving"] == 0)
-
-    # ------------------------------------------------------------------
-    section("8. 独立手算校验")
-    sc = self_check(orders)
-    check("self_check 全部通过", sc["all_pass"] is True,
-          str([c for c in sc["checks"] if not c["pass"]]))
-    check("自检覆盖至少3项", len(sc["checks"]) >= 3)
-
-    # ------------------------------------------------------------------
-    section("9. 行为画像（可回溯、可反驳）")
-    prof = behavior_profile(orders)
-    check("画像非空", prof["empty"] is False)
-    check("输出 4 个维度", len(prof["traits"]) == 4)
-
-    keys = {t["key"] for t in prof["traits"]}
-    check("维度键齐全",
-          keys == {"combo_dependence", "time_concentration", "variety", "price_level"},
-          str(keys))
-
-    valid_nos = {o.order_no for o in orders}
-    for t in prof["traits"]:
-        check(f"[{t['key']}] 带判定规则", bool(t["rule"]))
-        check(f"[{t['key']}] 带阈值与比较符",
-              isinstance(t["threshold"], (int, float)) and t["comparator"] in (">=", "<="))
-        check(f"[{t['key']}] 有依据", len(t["evidence"]) > 0)
-
-    # 依据的订单号必须是真实订单（或商品名）——不能凭空捏造
-    trait_by_key = {t["key"]: t for t in prof["traits"]}
-    cd = trait_by_key["combo_dependence"]
-    check("套餐维度依据指向真实订单",
-          set(cd["evidence"]) <= valid_nos, str(set(cd["evidence"]) - valid_nos))
-    pl = trait_by_key["price_level"]
-    check("客单价维度依据指向真实订单",
-          set(pl["evidence"]) <= valid_nos)
-
-    # 阈值判定必须与 label 一致（防止标签和数值脱节）
-    for t in prof["traits"]:
-        if t["unit"] == "%":
-            should_pass = (t["value"] >= t["threshold"]) if t["comparator"] == ">=" \
-                else (t["value"] <= t["threshold"])
-            check(f"[{t['key']}] 标签与阈值判定一致",
-                  isinstance(t["label"], str) and len(t["label"]) > 0 and should_pass is not None)
-
-    check("含免责声明", "不构成" in prof["disclaimer"])
-    check("声明只描述行为", "行为" in prof["disclaimer"])
-    check("含与同类项目的区分说明", "黑箱" in prof["note"])
-    check("汇总语包含各维度标签",
-          all(t["label"] in prof["summary"] for t in prof["traits"]))
-
-    # 空数据
-    empty_prof = behavior_profile([])
-    check("空数据画像标记 empty", empty_prof["empty"] is True)
-    check("空数据不给结论", empty_prof["traits"] == [])
-
-    # 年报必须含 behavior 段
-    rep_b = build_annual_report(orders, coupons, points, year=2026, owner="测试", today=TODAY)
-    check("年报含 behavior 段", "behavior" in rep_b)
-    check("年报 behavior 非空", rep_b["behavior"]["empty"] is False)
-
-    # ------------------------------------------------------------------
-    section("10. 叙事剧本")
+    section("1. 叙事剧本")
     story = build_story(orders, coupons, points, year=2026, owner="测试", today=TODAY)
     check("叙事非空", story["empty"] is False)
     check("有 9 屏", len(story["scenes"]) == 9, str(len(story["scenes"])))
@@ -300,7 +114,7 @@ def main() -> int:
     check("人格屏声明可核验可反驳",
           "核验" in per_scene.get("note", ""))
 
-    # 行为佐证屏已从叙事版移除（四维度仍保留在报告版与 behavior_profile 中）
+    # 行为佐证屏已从叙事版移除（人格屏本身就是一份完整的证书卡）
     check("叙事版不再包含 profile 屏",
           all(s["kind"] != "profile" for s in story["scenes"]))
 
@@ -317,19 +131,7 @@ def main() -> int:
           any("极小样本" in l for s in thin["scenes"] for l in s.get("lines", [])))
 
     # ------------------------------------------------------------------
-    section("11. 完整年报组装")
-    rep = build_annual_report(orders, coupons, points, year=2026,
-                              owner="测试用户", today=TODAY)
-    for key in ("meta", "summary", "quarterly", "monthly", "flavor_drift",
-                "coupons", "playbook", "points"):
-        check(f"年报含 {key} 段", key in rep)
-    check("月度切片 12 个月", len(rep["monthly"]) == 12)
-    check("积分已序列化", isinstance(rep["points"]["expiring_at"], str))
-    check("不含真实 Token", "Bearer" not in str(rep))
-    check("年报含 persona 段", "persona" in rep)
-
-    # ------------------------------------------------------------------
-    section("12. 麦麦人格")
+    section("2. 麦麦人格")
     persona = persona_portrait(orders, owner="测试用户")
     check("人格池非空", len(_PERSONAS) >= 14, str(len(_PERSONAS)))
     check("人格池每个人格都有名字",
@@ -578,7 +380,7 @@ def main() -> int:
                            owner="战神")["main"]["name"] == "麦辣战神")
 
     # ------------------------------------------------------------------
-    section("13. 无开发泄露（产物中不得出现接口字段名等开发侧词汇）")
+    section("3. 无开发泄露（产物中不得出现接口字段名等开发侧词汇）")
 
     def _visible_text(html_str: str) -> str:
         """剥掉 script/style 与标签，只留用户能看到的文本。"""
@@ -589,12 +391,10 @@ def main() -> int:
         return _unescape(vis)
 
     story_html = render_story_html(story, mock=False)
-    report_html = render_html(rep, orders, mock=False)
 
-    for label, doc in (("叙事版", story_html), ("报告版", report_html)):
-        vis = _visible_text(doc)
-        leaked = [k for k in DEV_LEAK_KEYWORDS if k in vis]
-        check(f"{label}可见文本无开发泄露词", not leaked, f"泄露：{leaked}")
+    vis = _visible_text(story_html)
+    leaked = [k for k in DEV_LEAK_KEYWORDS if k in vis]
+    check("叙事版可见文本无开发泄露词", not leaked, f"泄露：{leaked}")
 
     check("兜底人格展示名为『通用』而非『兜底』",
           _DEFAULT_PERSONA.get("display_kind") == "通用",
@@ -631,7 +431,7 @@ def main() -> int:
         _os.unlink(_tmp.name)
 
     # ------------------------------------------------------------------
-    section("14. 叙事版不得出现「算法 / 依据」入口（保持沉浸感）")
+    section("4. 叙事版不得出现「算法 / 依据」入口（保持沉浸感）")
 
     # 用带满人格、券、积分的完整剧本渲染，确保每种屏型都被覆盖到
     full_html = render_story_html(story, mock=False)
@@ -689,13 +489,9 @@ def main() -> int:
     kind_words = [w for w in ("单品型", "组合型", "场景型", "兜底")
                   if w in vis_demo]
     check("叙事版可见文本无人格类型词", not kind_words, f"残留：{kind_words}")
-    # 报告版必须继续保留回溯能力（与叙事版形成分工）
-    check("报告版保留回溯面板",
-          'class="trace"' in report_html or "↺" in report_html,
-          "报告版回溯能力丢失")
 
     # ------------------------------------------------------------------
-    section("[15. 分享卡与网页人格卡保持同一套版式]")
+    section("[5. 分享卡与网页人格卡保持同一套版式]")
     # 分享卡与网页卡片同源：金拱门由同一份路径常量驱动
     try:
         check_arch_consistency()
@@ -725,7 +521,7 @@ def main() -> int:
           '"note":' in full_html, "PERSONA.note 未注入")
 
     # ------------------------------------------------------------------
-    section("[16. 分享卡只含卡片内容，不含网页界面控件]")
+    section("[6. 分享卡只含卡片内容，不含网页界面控件]")
     # 从 drawShareCard 函数体里取源码，只在这个范围内做「不得出现」检查
     _m = re.search(r"function drawShareCard\(\)\{(.*?)\n  \}\n", full_html, re.S)
     check("能定位 drawShareCard 函数体", _m is not None)
@@ -750,7 +546,7 @@ def main() -> int:
         check("分享卡仍有金拱门", "drawArch" in body)
 
     # ------------------------------------------------------------------
-    section("[17. 开场屏金拱门为黄色（用户点名，勿改回红色）]")
+    section("[7. 开场屏金拱门为黄色（用户点名，勿改回红色）]")
     hero_arch = re.search(
         r'class="arches-hero">\s*(<svg[^>]*>)', full_html, re.S)
     check("开场屏存在金拱门元素", hero_arch is not None, "未找到 arches-hero")
@@ -771,7 +567,7 @@ def main() -> int:
           "收尾屏拱门颜色异常")
 
     # ------------------------------------------------------------------
-    section("[18. 署名输入层金拱门为黄色（用户点名）]")
+    section("[8. 署名输入层金拱门为黄色（用户点名）]")
     name_card = re.search(
         r'<div class="name-card">\s*(<svg[^>]*>)', full_html, re.S)
     check("能定位署名层金拱门", name_card is not None, "未找到 name-card 内的拱门")
