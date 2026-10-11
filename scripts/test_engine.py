@@ -70,10 +70,12 @@ def main() -> int:
     # 会员尾号：跳过署名时的兜底（取 accountId 末 4 位）
     # 注意：这里刻意用**假 accountId**，只保证形状（20 位数字）与末 4 位即可，
     # 不得写入任何真实账号 ID —— 测试文件会入库。
+    # 同样地，**示例尾号本身也不能用真实尾号**，否则等于把真实会员 ID 的
+    # 末 4 位公开（这是本项目实际踩过的坑），一律用全 0。
     story_acct = build_story(orders, coupons, points, year=2026, owner="测试",
-                             account={"accountId": "00000000000000003118"})
+                             account={"accountId": "00000000000000000000"})
     check("带账户时取会员尾号末 4 位",
-          story_acct.get("member_suffix") == "3118", str(story_acct.get("member_suffix")))
+          story_acct.get("member_suffix") == "0000", str(story_acct.get("member_suffix")))
     check("无账户时会员尾号为空",
           story.get("member_suffix") == "", str(story.get("member_suffix")))
     check("短 accountId 只取末尾可用位",

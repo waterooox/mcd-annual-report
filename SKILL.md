@@ -149,7 +149,7 @@ opening → number → place → taste → time → persona_teaser → persona �
 真实接口**无昵称字段**，所以署名走前端输入 + 三级兜底：
 
 1. 用户在署名输入层填的名字（存 `localStorage`，**不上传**）
-2. 跳过输入 → 自动用会员 ID 尾号，显示为「麦友 3118」
+2. 跳过输入 → 自动用会员 ID 尾号，显示为「麦友 0000」（示例，实际显示你自己的尾号）
 3. 都没有 → 生成时的默认署名（`data/user.json` 的 `owner_name`）
 
 要点：
@@ -349,10 +349,10 @@ filter: drop-shadow(0 0 2px rgba(176,122,0,.55))
 动这个项目前，先读这三条：
 
 1. **零第三方依赖**（降评委复现门槛）。只用 Python 标准库 + 纯 CSS/SVG/Canvas。
-   主运行时用托管版本：
-   `C:/Users/water/.workbuddy/binaries/python/versions/3.13.12/python.exe`
-   （截图验证脚本需 `websocket-client`，用托管 venv：
-   `C:/Users/water/.workbuddy/binaries/python/envs/default/Scripts/python.exe`）
+   主运行时用 Python 3.10+ 即可；本仓库开发时用的是 WorkBuddy 的托管运行时
+   （路径形如 `<WorkBuddy 安装目录>/binaries/python/versions/<版本>/python.exe`）。
+   （截图验证脚本另需 `websocket-client`，可装在任意虚拟环境里，
+   例如 `<WorkBuddy 安装目录>/binaries/python/envs/default/Scripts/python.exe`）
 
 2. **改计算逻辑 → 必须补 `test_engine.py` 断言**。
    当前 **278 项**，全程保持全绿。分节：

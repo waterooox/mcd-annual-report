@@ -714,7 +714,7 @@ def build_story(
     ys = sorted([o for o in orders if o.ts.year == year], key=lambda o: o.ts)
     scenes: List[Dict[str, Any]] = []
 
-    # 会员尾号：MCP 不返回昵称，跳过署名时用它兜底（如「麦友 ··3118」）。
+    # 会员尾号：MCP 不返回昵称，跳过署名时用它兜底（如「麦友 0000」）。
     # 取 accountId 末 4 位，避免暴露完整会员 ID。
     member_suffix = ""
     if account and account.get("accountId"):

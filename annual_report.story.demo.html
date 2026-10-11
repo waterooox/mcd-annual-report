@@ -810,7 +810,7 @@ body{
   var nameSkip = document.getElementById('name-skip');
   var savedOwner = null;
   try { savedOwner = localStorage.getItem(OWNER_KEY); } catch(err) {}
-  // 署名兜底优先级：用户输入名 > 会员 ID 尾号（麦友 3118）> 生成时默认署名
+  // 署名兜底优先级：用户输入名 > 会员 ID 尾号（形如「麦友 0000」）> 生成时默认署名
   function resolveName(v){
     if(v) return v;
     if(MEMBER_SUFFIX) return '麦友 ' + MEMBER_SUFFIX;
